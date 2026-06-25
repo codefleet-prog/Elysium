@@ -1,0 +1,1176 @@
+@font-face {
+    font-family: 'Good Timing Light';
+    src: url('FontsFree-Net-Good-Timing-W00-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --bg-color: #000000;
+    --text-main: #ffffff;
+    --text-muted: #aaaaaa;
+    --accent-red: #c50000;
+    --accent-hover: #ff1a1a;
+    --font-main: 'Good Timing Light', 'Outfit', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    overflow-x: hidden; /* Allow vertical scrolling, prevent horizontal scroll from marquees */
+    min-height: 100vh;
+    position: relative;
+}
+
+/* The new fixed top header */
+#fixed-header {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: calc(100% - 40px);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 25px 4vw; /* Restored padding to place logo properly */
+    z-index: 2000;
+    pointer-events: none; /* Let clicks pass through empty space */
+}
+
+#fixed-header > * {
+    pointer-events: auto;
+}
+
+/* Navbar container sitting in the black space (now just holding links) */
+.navbar {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.navbar > * {
+    pointer-events: auto;
+}
+
+.logo-img {
+    height: 130px;
+    width: auto;
+    object-fit: contain;
+    margin-top: -25px;
+}
+
+.nav-links {
+    position: absolute;
+    top: 10px; /* Centered nicely inside the top notch */
+    display: flex;
+    gap: 15px; /* Reduced gap to account for link padding */
+}
+
+.nav-links a {
+    position: relative;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 8px 18px; /* Padding to hold the background shape */
+    transition: color 0.3s ease;
+    z-index: 1;
+}
+
+/* The Brave Futuristic Hover Effect (Slanted Red Slice) */
+.nav-links a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--accent-red);
+    z-index: -1;
+    /* Slanted parallelogram shape matching the overall cutouts */
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    /* Animation setup: start hidden, scale from right */
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.nav-links a:hover {
+    color: #ffffff;
+}
+
+.nav-links a:hover::before {
+    /* Slice in from the left on hover */
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Bold 3-Line Hamburger Icon */
+.hamburger-btn {
+    position: relative;
+    width: 36px;
+    height: 22px; /* Height to accommodate 3 thick lines */
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 20px;
+    z-index: 2001; /* Above the fullscreen menu overlay */
+}
+
+.hamburger-btn .line {
+    width: 100%;
+    height: 3px; /* Bolder lines */
+    background-color: var(--text-main);
+    transition: transform 0.4s ease, opacity 0.4s ease, background-color 0.4s ease, width 0.4s ease;
+    transform-origin: center;
+    border-radius: 2px; /* Soft edges for thick lines */
+}
+
+/* Make the middle line slightly shorter */
+.hamburger-btn .line:nth-child(2) {
+    width: 75%;
+}
+
+body:not(.menu-open) .hamburger-btn:hover .line:nth-child(2) {
+    width: 100%;
+    background-color: var(--accent-red);
+}
+
+/* Open State for Hamburger (transforms to X) */
+/* Container height is 22px. Top line is at 0, bottom line is at 19px (since height is 3px). Distance to center is 9.5px */
+body.menu-open .hamburger-btn .line:nth-child(1) {
+    transform: translateY(9.5px) rotate(45deg);
+}
+
+body.menu-open .hamburger-btn .line:nth-child(2) {
+    opacity: 0;
+}
+
+body.menu-open .hamburger-btn .line:nth-child(3) {
+    transform: translateY(-9.5px) rotate(-45deg);
+}
+
+/* Sleek Fullscreen Menu Overlay */
+.fullscreen-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(5, 5, 5, 0.95); /* Deep, almost solid black */
+    backdrop-filter: blur(10px);
+    z-index: 1500;
+    display: flex;
+    justify-content: flex-start; /* Left align for a more editorial look */
+    align-items: center;
+    padding-left: 12vw;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+body.menu-open .fullscreen-menu {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.menu-nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.menu-nav-links a {
+    position: relative;
+    color: rgba(255, 255, 255, 0.2); /* Strongly dimmed initially */
+    text-decoration: none;
+    font-size: 80px; /* Huge editorial typography */
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300; /* Ultra light and sleek */
+    text-transform: uppercase;
+    letter-spacing: -2px; /* Tight tracking for modern feel */
+    opacity: 0; /* Hidden initially for stagger animation */
+    transform: translateX(-50px); /* Will slide in from left */
+    transition: color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-nav-links a:hover {
+    color: #ffffff;
+    transform: translateX(20px);
+}
+
+/* Subtle red dash indicator on hover */
+.menu-nav-links a::before {
+    content: "";
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0px;
+    height: 2px;
+    background-color: var(--accent-red);
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-nav-links a:hover::before {
+    width: 25px;
+}
+
+/* Hero Section Wrapper */
+.hero-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Hero Container */
+.hero-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: calc(100vw - 40px);
+    height: calc(100vh - 40px);
+    z-index: 1;
+}
+
+/* Background image and cutouts */
+.hero-bg-layer {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), linear-gradient(rgba(197,0,0,0.2), rgba(197,0,0,0.2)), url('hero_rave.jpg');
+    background-size: cover;
+    background-position: center 20%;
+    /* opacity removed to prevent elements behind it from showing through */
+    z-index: -1;
+    transform-origin: center center;
+    will-change: transform;
+    
+    /* This shape creates true 5px curved corners at the outer bounds, while keeping notches sharp */
+    clip-path: polygon(
+        /* Top Edge */
+        0 5px, 1px 2px, 2px 1px, 5px 0, /* Top-Left 5px Curve */
+        
+        calc(50% - 420px) 0, 
+        calc(50% - 360px) 70px, 
+        calc(50% + 360px) 70px, 
+        calc(50% + 420px) 0, 
+        
+        calc(100% - 5px) 0, calc(100% - 2px) 1px, calc(100% - 1px) 2px, 100% 5px, /* Top-Right 5px Curve */
+        
+        /* Bottom Edge (Wider tab) */
+        100% calc(100% - 105px), calc(100% - 1px) calc(100% - 102px), calc(100% - 2px) calc(100% - 101px), calc(100% - 5px) calc(100% - 100px), /* Bottom-Right 5px Curve */
+        
+        calc(50% + 300px) calc(100% - 100px), 
+        calc(50% + 240px) 100%, 
+        calc(50% - 240px) 100%, 
+        calc(50% - 300px) calc(100% - 100px), 
+        
+        5px calc(100% - 100px), 2px calc(100% - 101px), 1px calc(100% - 102px), 0 calc(100% - 105px) /* Bottom-Left 5px Curve */
+    );
+}
+
+/* Hero Content */
+.hero-content {
+    position: absolute;
+    top: 100px;
+    height: calc(100vh - 240px); /* Adjusting to fit between the top notch and bottom cutouts with margins */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Reviews */
+.reviews {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    justify-content: center;
+}
+
+.stars {
+    display: flex;
+    gap: 4px;
+}
+
+.star {
+    width: 14px;
+    height: 14px;
+    background-color: var(--accent-red);
+}
+
+.star.half {
+    background: linear-gradient(to right, var(--accent-red) 50%, rgba(255, 255, 255, 0.3) 50%);
+}
+
+.rating-num {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.ravers {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.ravers strong {
+    color: var(--text-main);
+}
+
+/* Main Headline */
+.main-headline {
+    font-size: 70px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    line-height: 1.1;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+.divider {
+    color: var(--accent-red);
+}
+
+/* The Button in the Bottom Notch */
+.hero-tab-button {
+    position: absolute;
+    bottom: 45px; /* Inside the wider DJ image tab, adjusted for the 20px margin */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.cta-btn {
+    position: relative;
+    background: var(--accent-red);
+    color: white;
+    border: none;
+    padding: 18px 50px;
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    /* Slanted edges button */
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Shiny Sweep Effect */
+.cta-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1;
+}
+
+.cta-btn:hover::before {
+    left: 150%;
+}
+
+.cta-btn:hover {
+    background: var(--accent-hover);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--accent-red);
+}
+
+.cta-btn span {
+    transition: transform 0.3s ease;
+}
+
+.cta-btn:hover span {
+    transform: translateX(6px);
+}
+
+/* Bottom Bar */
+.bottom-bar {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: calc(100% - 40px);
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4vw;
+    z-index: 10;
+    pointer-events: none; /* Prevent blocking hover on the center button */
+}
+
+.bottom-bar > * {
+    pointer-events: auto;
+}
+
+/* QR Section */
+.qr-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.qr-placeholder {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.05);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.qr-dots {
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(rgba(255,255,255,0.8) 40%, transparent 40%);
+    background-size: 10px 10px;
+}
+
+.price-info h3 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.price-info p {
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.4;
+    margin-top: 4px;
+}
+
+/* Scroll Section */
+.scroll-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.scroll-section p {
+    color: var(--text-muted);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-align: right;
+    line-height: 1.5;
+}
+
+.small-preview {
+    width: 70px;
+    height: 45px;
+    background-image: url('hero_rave.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.small-preview:hover {
+    opacity: 1;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+    .main-headline { font-size: 50px; }
+    .hero-bg-layer { 
+        clip-path: polygon(
+            0 5px, 1px 2px, 2px 1px, 5px 0,
+            calc(50% - 300px) 0, calc(50% - 240px) 70px, calc(50% + 240px) 70px, calc(50% + 300px) 0, 
+            calc(100% - 5px) 0, calc(100% - 2px) 1px, calc(100% - 1px) 2px, 100% 5px, 
+            
+            100% calc(100% - 105px), calc(100% - 1px) calc(100% - 102px), calc(100% - 2px) calc(100% - 101px), calc(100% - 5px) calc(100% - 100px), 
+            calc(50% + 260px) calc(100% - 100px), calc(50% + 200px) 100%, calc(50% - 200px) 100%, calc(50% - 260px) calc(100% - 100px), 
+            5px calc(100% - 100px), 2px calc(100% - 101px), 1px calc(100% - 102px), 0 calc(100% - 105px)
+        ); 
+    }
+    .nav-links { top: 40px; gap: 20px; }
+    .hero-tab-button { bottom: 45px; }
+}
+
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .main-headline { font-size: 36px; }
+    .hero-bg-layer { 
+        clip-path: polygon(
+            0 5px, 1px 2px, 2px 1px, 5px 0, 
+            calc(50% - 120px) 0, calc(50% - 90px) 70px, calc(50% + 90px) 70px, calc(50% + 120px) 0, 
+            calc(100% - 5px) 0, calc(100% - 2px) 1px, calc(100% - 1px) 2px, 100% 5px, 
+            
+            100% calc(100% - 105px), calc(100% - 1px) calc(100% - 102px), calc(100% - 2px) calc(100% - 101px), calc(100% - 5px) calc(100% - 100px), 
+            calc(50% + 180px) calc(100% - 100px), calc(50% + 140px) 100%, calc(50% - 140px) 100%, calc(50% - 180px) calc(100% - 100px), 
+            5px calc(100% - 100px), 2px calc(100% - 101px), 1px calc(100% - 102px), 0 calc(100% - 105px)
+        ); 
+    }
+    .bottom-bar { display: none; }
+    .hero-tab-button { bottom: 45px; }
+}
+
+/* Futuristic Loading Reveal */
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    z-index: 9999;
+    pointer-events: none; 
+}
+
+.loader-block {
+    flex: 1;
+    background: #000;
+    height: 100%;
+    position: relative;
+    animation: slideUpReveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    border-right: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.loader-block:last-child {
+    border-right: none;
+}
+
+/* Red scanner line at the bottom of each block */
+.loader-block::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-red);
+    box-shadow: 0 0 10px var(--accent-red);
+}
+
+.loader-block:nth-child(1) { animation-delay: 0.1s; }
+.loader-block:nth-child(2) { animation-delay: 0.2s; }
+.loader-block:nth-child(3) { animation-delay: 0.3s; }
+.loader-block:nth-child(4) { animation-delay: 0.4s; }
+.loader-block:nth-child(5) { animation-delay: 0.5s; }
+.loader-block:nth-child(6) { animation-delay: 0.6s; }
+.loader-block:nth-child(7) { animation-delay: 0.7s; }
+
+@keyframes slideUpReveal {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(calc(-100% - 20px)); }
+}
+
+/* Removed CSS entrance animations to handle them via GSAP */
+
+
+
+/* GSAP Scroll Transition Styles */
+.centered-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 150%); /* Start lower */
+    opacity: 0;
+    width: 250px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.marquee-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+    opacity: 0; /* Hidden initially */
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.marquee {
+    display: flex;
+    white-space: nowrap;
+}
+
+.marquee span {
+    font-size: 100px;
+    line-height: 1;
+    text-transform: uppercase;
+    padding-right: 50px;
+}
+
+.marquee-bold span {
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.8);
+    transform: translateX(0); /* Animation driven by GSAP */
+}
+
+.marquee-red span {
+    font-weight: 400;
+    color: var(--accent-red);
+    transform: translateX(-50%); /* Start offset for opposite direction */
+}
+
+/* Atmospheric Red Lightings */
+.red-glow {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(197, 0, 0, 0.8) 0%, rgba(197, 0, 0, 0) 70%);
+    filter: blur(40px);
+    z-index: -1; /* Behind the marquees */
+    pointer-events: none;
+    /* Removed mix-blend-mode to fix Safari/WebKit disappearing repaint bugs on scroll */
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+.glow-1 {
+    width: 800px;
+    height: 800px;
+    top: -200px;
+    left: -200px;
+    animation: floatGlow 12s infinite alternate ease-in-out;
+}
+
+.glow-2 {
+    width: 1000px;
+    height: 1000px;
+    bottom: -300px;
+    right: -200px;
+    animation: floatGlow 15s infinite alternate-reverse ease-in-out;
+}
+
+.glow-3 {
+    width: 600px;
+    height: 600px;
+    top: 40%;
+    left: 40%;
+    animation: floatGlow 10s infinite alternate ease-in-out;
+}
+
+@keyframes floatGlow {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: translate(100px, -100px) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50px, 80px) scale(0.9);
+        opacity: 0.6;
+    }
+}
+
+/* About Section */
+.about-section {
+    position: relative;
+    z-index: 10;
+    background-color: var(--bg-color); /* Deep black background */
+    width: 100vw;
+    padding: 60px 6vw 120px 6vw; /* Reduced top padding, restored bottom padding */
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+}
+
+.about-container {
+    max-width: 1400px;
+    width: 100%;
+}
+
+.about-title {
+    font-size: 80px;
+    font-weight: 800;
+    margin-bottom: 80px;
+    text-transform: uppercase;
+    color: var(--text-main);
+    letter-spacing: 4px;
+    text-align: center; /* Center the text to avoid left-side logo overlap */
+}
+
+.about-title::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 5px;
+    background: var(--accent-red);
+    margin: 20px auto 0 auto; /* Center the red line */
+    box-shadow: 0 0 15px var(--accent-red);
+}
+
+.about-rows {
+    position: relative;
+    width: 100%;
+    min-height: 550px; /* Fixed height for absolute children */
+    overflow: hidden; /* Prevents horizontal scrollbar when sliding left */
+}
+
+.about-row {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    background-color: var(--bg-color); /* Opaque background hides the layers underneath */
+}
+
+/* Stacking Order (1 is on top, 3 is on bottom) */
+.about-row:nth-child(1) { z-index: 3; }
+.about-row:nth-child(2) { z-index: 2; }
+.about-row:nth-child(3) { z-index: 1; }
+
+.about-row.reverse {
+    flex-direction: row-reverse;
+}
+
+.about-text {
+    flex: 1;
+    font-size: 18px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.about-text p {
+    margin-bottom: 30px;
+}
+
+.about-image-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    /* Container for the parallax effect overflow */
+    overflow: hidden;
+    position: relative;
+    height: 500px;
+    background-color: transparent;
+}
+
+.wrapper-left {
+    justify-content: flex-start;
+}
+
+.wrapper-right {
+    justify-content: flex-end;
+}
+
+/* The mask that actually applies the cutout to the image */
+.about-image-mask {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Cyberpunk/Tech notched corner cutouts */
+.cutout-tl {
+    clip-path: polygon(0% 15%, 35% 15%, 50% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.cutout-br {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 65% 85%, 50% 100%, 0% 100%);
+}
+
+.cutout-tr {
+    clip-path: polygon(0% 0%, 50% 0%, 65% 15%, 100% 15%, 100% 100%, 0% 100%);
+}
+
+/* The actual image inside the mask, sized larger to allow parallax */
+.parallax-img {
+    width: 100%;
+    height: 120%; /* Taller than container for parallax movement */
+    object-fit: cover;
+    object-position: center;
+    transform: translateY(-10%); /* Start offset for parallax */
+    will-change: transform;
+}
+
+/* --- EVENTS SECTION --- */
+.events-section {
+    position: relative;
+    padding: 120px 6vw;
+    background-color: #050505; /* Deep, near-black */
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Sliding Geometric Shape */
+.about-slider-shape {
+    position: absolute;
+    top: -1px; /* Prevent sub-pixel rendering gaps */
+    left: -100px; /* Hide left edge off-screen initially to look flush */
+    width: 65vw;
+    height: 120px;
+    background-color: var(--bg-color);
+    z-index: 10;
+    /* 45-degree angled trapezoid mimicking the header */
+    clip-path: polygon(0 0, 100% 0, calc(100% - 120px) 100%, 120px 100%);
+    will-change: transform;
+}
+
+/* Ambient Background Glows */
+.events-glow-override {
+    z-index: 0 !important; /* Force them to sit above the #050505 background */
+}
+
+.events-container {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.events-title {
+    font-size: 80px;
+    font-weight: 800;
+    margin-bottom: 80px;
+    text-transform: uppercase;
+    color: var(--text-main);
+    letter-spacing: 4px;
+    text-align: right;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 50px;
+}
+
+.event-card {
+    background-color: rgba(20, 20, 20, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 450px;
+    position: relative;
+}
+
+/* Stagger the second card */
+.event-card:nth-child(2) {
+    margin-top: 150px;
+}
+
+.event-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(197,0,0,0.1) 0%, rgba(0,0,0,0) 50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.event-card-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.event-date {
+    color: var(--accent-red);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.event-name {
+    font-size: 40px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.event-location {
+    color: rgba(255,255,255,0.5);
+    font-size: 18px;
+}
+
+.event-btn {
+    align-self: flex-start;
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 15px 30px;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 30px;
+    margin-top: 40px;
+}
+
+.event-btn:hover {
+    border-color: var(--accent-red);
+    background-color: rgba(197, 0, 0, 0.1);
+}
+
+@media (max-width: 1024px) {
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+    .event-card:nth-child(2) {
+        margin-top: 0;
+    }
+    .events-title {
+        font-size: 60px;
+        text-align: left;
+    }
+}
+
+@media (max-width: 768px) {
+    .events-title {
+        font-size: 45px;
+    }
+}
+
+.highlight-text {
+    font-size: 26px;
+    color: var(--text-main);
+    font-weight: 600;
+    line-height: 1.6;
+    border-left: 4px solid var(--accent-red);
+    padding-left: 30px;
+    margin-bottom: 40px !important;
+}
+
+@media (max-width: 1024px) {
+    .about-row, .about-row.reverse {
+        flex-direction: column;
+        gap: 40px;
+    }
+    .about-image-wrapper {
+        width: 100%;
+        height: 400px;
+    }
+    .about-title {
+        font-size: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-title {
+        font-size: 45px;
+    }
+    .about-section {
+        padding: 80px 6vw;
+    }
+    .highlight-text {
+        font-size: 20px;
+        padding-left: 20px;
+    }
+}
+
+/* --- SCROLL-DRIVEN TRANSITION LOADER --- */
+.scroll-loader {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Exactly viewport height */
+    display: flex;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.s-block {
+    flex: 1;
+    background-color: var(--bg-color); /* Changed to black */
+    height: 100%;
+    transform: translateY(100%); /* hidden below initially */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Changed shadow to match */
+    border-right: 1px solid rgba(255, 255, 255, 0.03);
+    position: relative; /* for the pseudo-element */
+}
+
+.s-block:last-child {
+    border-right: none;
+}
+
+/* Red scanner line at the bottom, just like initial loader */
+.s-block::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--bg-color);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* --- CONTACT SECTION --- */
+.contact-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color);
+    margin-top: -100vh;
+    z-index: 1000;
+}
+
+.contact-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: calc(100vw - 40px);
+    height: calc(100vh - 40px);
+    z-index: 1;
+    overflow: hidden;
+}
+
+.contact-bg-layer {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Use the same background image with red shift */
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), linear-gradient(rgba(197,0,0,0.2), rgba(197,0,0,0.2)), url('hero_rave.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    z-index: -1;
+    transform: scaleX(-1); /* Horizontally reversed */
+    
+    /* Exact same polygon as hero-bg-layer, so the notch is at the top center again! */
+    clip-path: polygon(
+        /* Top Edge */
+        0 5px, 1px 2px, 2px 1px, 5px 0, /* Top-Left 5px Curve */
+        
+        calc(50% - 420px) 0, 
+        calc(50% - 360px) 70px, 
+        calc(50% + 360px) 70px, 
+        calc(50% + 420px) 0, 
+        
+        calc(100% - 5px) 0, calc(100% - 2px) 1px, calc(100% - 1px) 2px, 100% 5px, /* Top-Right 5px Curve */
+        
+        /* Right Edge */
+        100% calc(100% - 5px), calc(100% - 1px) calc(100% - 2px), calc(100% - 2px) calc(100% - 1px), calc(100% - 5px) 100%, /* Bottom-Right 5px Curve */
+        
+        /* Bottom Edge (Wider tab) - scaled up cutouts */
+        100% calc(100% - 145px), calc(100% - 1px) calc(100% - 142px), calc(100% - 2px) calc(100% - 141px), calc(100% - 5px) calc(100% - 140px), /* Bottom-Right 5px Curve */
+        
+        calc(50% + 400px) calc(100% - 140px), 
+        calc(50% + 240px) 100%, 
+        calc(50% - 240px) 100%, 
+        calc(50% - 400px) calc(100% - 140px), 
+        
+        5px calc(100% - 140px), 2px calc(100% - 141px), 1px calc(100% - 142px), 0 calc(100% - 145px) /* Bottom-Left 5px Curve */
+    );
+}
+
+.contact-logo {
+    width: 300px;
+    max-width: 80%;
+    z-index: 2;
+}
+
+/* Contact Infos */
+.top-notch-headline {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    z-index: 10;
+}
+
+.contact-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.c-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 16px;
+    color: var(--text-muted);
+}
+
+.c-icon {
+    color: var(--accent-red);
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+}
+
+.contact-socials {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+}
+
+.s-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: var(--accent-red);
+    font-weight: bold;
+    font-size: 18px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.s-icon:hover {
+    transform: translateY(-3px);
+    background-color: rgba(197, 0, 0, 0.1);
+}
