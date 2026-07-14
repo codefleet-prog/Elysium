@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Step 1: Slide out hero elements (text, buttons, bottom bar, and nav links)
-    tl.to(".hero-section .hero-content, .hero-section .hero-tab-button, .hero-section .bottom-bar, .hero-section .navbar", {
+    tl.to(".hero-section .hero-content, .hero-tab-button, .bottom-bar, .navbar", {
         y: -150,
         opacity: 0,
         duration: 1.5,
@@ -84,6 +84,35 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- ABOUT SECTION SCROLL ANIMATIONS (PINNED DECK) ---
     const aboutRows = gsap.utils.toArray(".about-row");
 
+    // Reveal the About Title and the First Row smoothly based on scroll position
+    gsap.from(".about-title", {
+        scrollTrigger: {
+            trigger: ".about-section",
+            start: "top 90%", // Triggers when the section is 90% down the viewport
+            end: "top 50%",   // Finishes when section is 50% down
+            scrub: 1          // Smooth scroll-driven animation
+        },
+        y: 80,
+        opacity: 0,
+        scale: 0.95,
+        ease: "none"
+    });
+
+    if (aboutRows.length > 0) {
+        gsap.from(aboutRows[0], {
+            scrollTrigger: {
+                trigger: ".about-section",
+                start: "top 85%", 
+                end: "top 40%",   
+                scrub: 1          
+            },
+            y: 120,
+            opacity: 0,
+            scale: 0.95,
+            ease: "none"
+        });
+    }
+
     // Pin the entire about section for 2000px of scrolling
     const aboutTl = gsap.timeline({
         scrollTrigger: {
@@ -98,11 +127,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Phase 1: Slide Row 1 out to the left to reveal Row 2
     if (aboutRows.length > 1) {
+        // Make Row 2 visible instantly right before Row 1 starts sliding out
+        aboutTl.to(aboutRows[1], { opacity: 1, duration: 0.01 });
+
         aboutTl.to(aboutRows[0], {
             xPercent: -100, // Slide completely out of view
             ease: "power2.inOut",
             duration: 1
-        });
+        }, "<"); // Run at the same time as the opacity toggle
         
         // Add a slight parallax to the image inside Row 1 as it leaves
         const img1 = aboutRows[0].querySelector(".parallax-img");
@@ -113,11 +145,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Phase 2: Slide Row 2 out to the left to reveal Row 3
     if (aboutRows.length > 2) {
+        // Make Row 3 visible right before Row 2 slides out
+        aboutTl.to(aboutRows[2], { opacity: 1, duration: 0.01 });
+
         aboutTl.to(aboutRows[1], {
             xPercent: -100,
             ease: "power2.inOut",
             duration: 1
-        });
+        }, "<");
 
         // Add a slight parallax to the image inside Row 2 as it leaves
         const img2 = aboutRows[1].querySelector(".parallax-img");
@@ -292,11 +327,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const hamburgerBtn = document.querySelector('.hamburger-btn');
     const menuLinks = document.querySelectorAll('.menu-nav-links a');
     
-    hamburgerBtn.addEventListener('click', () => {
-        document.body.classList.toggle('menu-open');
+    function closeMenu() {
+        if (!document.body.classList.contains('menu-open')) return;
         
-        if (document.body.classList.contains('menu-open')) {
-            // Animate links in (slide from left)
+        // CLOSING — add menu-closing first so retract animation plays
+        document.body.classList.add('menu-closing');
+        document.body.classList.remove('menu-open');
+        gsap.to(menuLinks, {
+            x: -50,
+            opacity: 0,
+            duration: 0.3,
+            stagger: -0.05,
+            ease: "power2.in"
+        });
+        // Remove menu-closing after retract animation finishes (~420ms)
+        setTimeout(() => {
+            document.body.classList.remove('menu-closing');
+        }, 420);
+    }
+
+    hamburgerBtn.addEventListener('click', () => {
+        const isOpen = document.body.classList.contains('menu-open');
+
+        if (!isOpen) {
+            // OPENING
+            document.body.classList.remove('menu-closing');
+            document.body.classList.add('menu-open');
             gsap.to(menuLinks, {
                 x: 0,
                 opacity: 1,
@@ -306,15 +362,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 delay: 0.1
             });
         } else {
-            // Animate links out (slide back left)
-            gsap.to(menuLinks, {
-                x: -50,
-                opacity: 0,
-                duration: 0.3,
-                stagger: -0.05,
-                ease: "power2.in"
-            });
+            closeMenu();
         }
+    });
+
+    // Close menu when a link is clicked
+    menuLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
     });
 
 });

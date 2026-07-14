@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELYSIUM AGENCY - Creative Collective</title>
+    <link rel="stylesheet" href="agency.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Marquees that fade in during glitch (Moved outside pinned section for Safari fix) -->
+    <div class="marquee-container">
+        <!-- Atmospheric Red Lightings -->
+        <div class="red-glow glow-1"></div>
+        <div class="red-glow glow-2"></div>
+        <div class="red-glow glow-3"></div>
+
+        <div class="marquee marquee-bold"><span>ELYSIUM AGENCY ELYSIUM AGENCY ELYSIUM AGENCY ELYSIUM AGENCY </span></div>
+        <div class="marquee marquee-red"><span>CREATIVE COLLECTIVE CREATIVE COLLECTIVE CREATIVE COLLECTIVE CREATIVE COLLECTIVE </span></div>
+    </div>
+
+    <!-- Futuristic Reveal Loader -->
+    <div class="loader-overlay">
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+    </div>
+
+    <!-- The New Fixed Top Header -->
+    <header id="fixed-header">
+        <a href="index.html">
+            <img src="assets/logo.png" alt="ELYSIUM Logo" class="logo-img">
+        </a>
+        <div class="hamburger-btn" id="fingerprint-btn" aria-label="Open menu">
+            <img class="fp-image" src="archive/finger.png" alt="">
+            <svg class="fp-cross-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="fp-cross fp-cross-1"
+                    d="M 22,22 L 78,78"
+                    stroke="white" stroke-width="10" stroke-linecap="round" fill="none"/>
+                <path class="fp-cross fp-cross-2"
+                    d="M 78,22 L 22,78"
+                    stroke="white" stroke-width="10" stroke-linecap="round" fill="none"/>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Hero Section (Identical layout to main page) -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <!-- The background layer with static image (instead of video) -->
+            <div class="hero-bg-layer" style="pointer-events: none;">
+                <img src="assets/hero_rave.jpg" alt="Agency Background" class="hero-bg-img">
+                
+                <!-- Glitch overlay container — JS fills this with 12 slices -->
+                <div class="glitch-overlay" id="glitch-overlay"></div>
+            </div>
+
+            <!-- The logo that will slide up when glitch dissolves -->
+            <img src="assets/full-logo.png" alt="Elysium Full Logo" class="centered-logo">
+
+            <main class="hero-content">
+                <div class="hero-text-wrapper">
+                    <div class="reviews">
+                        <div class="stars">
+                            <div class="star full"></div>
+                            <div class="star full"></div>
+                            <div class="star full"></div>
+                            <div class="star full"></div>
+                            <div class="star half"></div>
+                        </div>
+                        <span class="rating-num">4.9/5</span>
+                        <span class="ravers"><strong>50+</strong> Elégedett Partner</span>
+                    </div>
+
+                    <h1 class="main-headline">
+                        <span style="color: var(--accent-red);">"</span>AZ ELYSIUM HANGZÁSA<span style="color: var(--accent-red);">"</span>
+                    </h1>
+                </div>
+            </main>
+        </div>
+
+        <!-- The Button in the bottom notch -->
+        <div class="hero-tab-button">
+            <button class="cta-btn">KAPCSOLAT <span>&#10142;</span></button>
+        </div>
+
+        <!-- Bottom info in the black area -->
+        <div class="bottom-bar">
+            <div class="qr-section">
+                <div class="qr-placeholder">
+                    <div class="qr-dots"></div>
+                </div>
+                <div class="price-info">
+                    <h3>AGENCY</h3>
+                    <p>RENDEZVÉNYSZERVEZÉS,<br>KREATÍV MEGOLDÁSOK.</p>
+                </div>
+            </div>
+            
+            <div class="scroll-section">
+                <p>GÖRGESS LE A<br>SZOLGÁLTATÁSOKHOZ</p>
+                <div class="small-preview"></div>
+            </div>
+        </div>
+    </section>
+
+    <header class="navbar">
+        <nav class="nav-links">
+            <a href="index.html"><span>KEZDŐLAP</span></a>
+            <a href="index.html#rolunk"><span>RÓLUNK</span></a>
+            <a href="#"><span>AGENCY</span></a>
+            <a href="#"><span>ESEMÉNYEK</span></a>
+            <a href="#"><span>KAPCSOLAT</span></a>
+        </nav>
+    </header>
+
+    <!-- Agency Content Section (revealed after glitch dissolve) -->
+    <!-- Resident DJs Section (revealed after glitch dissolve) -->
+    <section class="resident-section" id="rezidensek">
+        <div class="resident-container">
+            <h2 class="resident-title">REZIDENSEINK</h2>
+            <div class="resident-rows">
+                <!-- Resident 1 -->
+                <div class="resident-row">
+                    <div class="resident-text text-left">
+                        <h3 class="dj-name">DJ PLACEHOLDER 1</h3>
+                        <p class="highlight-text">Az éjszaka sötét ütemeinek mestere, aki a legkeményebb hardgroove és indusztriális techno hangzást hozza el a közönségnek.</p>
+                        <p>A szettjei során a nyers, letisztult dobképletekre és a hipnotikus basszusvonalakra fókuszál, hogy a tánctér közönsége egy igazi eufórikus állapotba kerüljön. Több éves tapasztalattal a háta mögött mindig tudja, hogyan kell a feszültséget a tetőfokára emelni.</p>
+                        <div class="social-icons">
+                            <a href="#" target="_blank" title="Facebook">
+                                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                            </a>
+                            <a href="#" target="_blank" title="Instagram">
+                                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                            </a>
+                            <a href="#" target="_blank" title="SoundCloud">
+                                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M11.83 17.575V8.583a.473.473 0 0 1 .473-.473h.047a.473.473 0 0 1 .473.473v8.992a.473.473 0 0 1-.473.473h-.047a.473.473 0 0 1-.473-.473zm-1.89-8.423a.473.473 0 0 0-.474-.473h-.047a.473.473 0 0 0-.473.473v8.423a.473.473 0 0 0 .473.473h.047a.473.473 0 0 0 .474-.473V9.152zm-1.892 1.417a.473.473 0 0 0-.473-.473h-.048a.473.473 0 0 0-.473.473v7.006a.473.473 0 0 0 .473.473h.048a.473.473 0 0 0 .473-.473v-7.006zm-1.89 1.701a.473.473 0 0 0-.473-.474h-.047a.473.473 0 0 0-.473.474v5.305a.473.473 0 0 0 .473.473h.047a.473.473 0 0 0 .473-.473v-5.305zM4.266 14.3a.473.473 0 0 0-.473-.474h-.048a.473.473 0 0 0-.473.474v3.751a.473.473 0 0 0 .473.474h.048a.473.473 0 0 0 .473-.474V14.3zM2.375 15.62a.473.473 0 0 0-.473-.473H1.854a.473.473 0 0 0-.473.473v2.433a.473.473 0 0 0 .473.474h.048a.473.473 0 0 0 .473-.474V15.62zM.483 16.518a.473.473 0 0 0-.473-.474h-.01c-.261 0-.473.212-.473.474v1.535c0 .262.212.474.473.474h.01c.261 0 .473-.212.473-.474v-1.535zm17.65-4.524c-2.35 0-4.256 1.905-4.256 4.255v1.8c0 .262.212.474.474.474h9.176c.261 0 .473-.212.473-.474v-1.8c0-2.35-1.905-4.255-4.256-4.255a4.238 4.238 0 0 0-1.611.316z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="resident-image-wrapper wrapper-right">
+                        <div class="resident-image-mask cutout-tl">
+                            <img src="assets/1 Large.jpeg" alt="DJ Placeholder 1" class="parallax-img">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resident 2 -->
+                <div class="resident-row reverse">
+                    <div class="resident-text text-right">
+                        <h3 class="dj-name">DJ PLACEHOLDER 2</h3>
+                        <p class="highlight-text">A funky-groovy életérzés nagykövete, dallamosabb és groove-központú szelekcióval repít minket egy felejthetetlen utazásra.</p>
+                        <p>Különös érzéke van ahhoz, hogy a buli dinamikáját építse: könnyedebb, mégis lendületes zenékkel kezd, amit szép lassan emel át a legkeményebb ipari zúzásba. Fellépései mindig garantált euforiát nyújtanak.</p>
+                        <div class="social-icons">
+                            <a href="#" target="_blank" title="Facebook">
+                                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                            </a>
+                            <a href="#" target="_blank" title="Instagram">
+                                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                            </a>
+                            <a href="#" target="_blank" title="SoundCloud">
+                                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M11.83 17.575V8.583a.473.473 0 0 1 .473-.473h.047a.473.473 0 0 1 .473.473v8.992a.473.473 0 0 1-.473.473h-.047a.473.473 0 0 1-.473-.473zm-1.89-8.423a.473.473 0 0 0-.474-.473h-.047a.473.473 0 0 0-.473.473v8.423a.473.473 0 0 0 .473.473h.047a.473.473 0 0 0 .474-.473V9.152zm-1.892 1.417a.473.473 0 0 0-.473-.473h-.048a.473.473 0 0 0-.473.473v7.006a.473.473 0 0 0 .473.473h.048a.473.473 0 0 0 .473-.473v-7.006zm-1.89 1.701a.473.473 0 0 0-.473-.474h-.047a.473.473 0 0 0-.473.474v5.305a.473.473 0 0 0 .473.473h.047a.473.473 0 0 0 .473-.473v-5.305zM4.266 14.3a.473.473 0 0 0-.473-.474h-.048a.473.473 0 0 0-.473.474v3.751a.473.473 0 0 0 .473.474h.048a.473.473 0 0 0 .473-.474V14.3zM2.375 15.62a.473.473 0 0 0-.473-.473H1.854a.473.473 0 0 0-.473.473v2.433a.473.473 0 0 0 .473.474h.048a.473.473 0 0 0 .473-.474V15.62zM.483 16.518a.473.473 0 0 0-.473-.474h-.01c-.261 0-.473.212-.473.474v1.535c0 .262.212.474.473.474h.01c.261 0 .473-.212.473-.474v-1.535zm17.65-4.524c-2.35 0-4.256 1.905-4.256 4.255v1.8c0 .262.212.474.474.474h9.176c.261 0 .473-.212.473-.474v-1.8c0-2.35-1.905-4.255-4.256-4.255a4.238 4.238 0 0 0-1.611.316z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="resident-image-wrapper wrapper-left">
+                        <div class="resident-image-mask cutout-br">
+                            <img src="assets/2 Large.jpeg" alt="DJ Placeholder 2" class="parallax-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fullscreen Hamburger Menu Overlay -->
+    <div class="fullscreen-menu">
+        <nav class="menu-nav-links">
+            <a href="index.html">KEZDŐLAP</a>
+            <a href="index.html#rolunk">RÓLUNK</a>
+            <a href="agency.html">AGENCY</a>
+            <a href="index.html#esemenyek">ESEMÉNYEK</a>
+            <a href="index.html#kapcsolat">KAPCSOLAT</a>
+        </nav>
+    </div>
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="agency.js"></script>
+</body>
+</html>

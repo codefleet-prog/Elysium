@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Good Timing Light';
-    src: url('FontsFree-Net-Good-Timing-W00-Light.ttf') format('truetype');
+    src: url('assets/FontsFree-Net-Good-Timing-W00-Light.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -39,7 +39,7 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     padding: 25px 4vw; /* Restored padding to place logo properly */
-    z-index: 2000;
+    z-index: 2010;
     pointer-events: none; /* Let clicks pass through empty space */
 }
 
@@ -47,9 +47,8 @@ body {
     pointer-events: auto;
 }
 
-/* Navbar container sitting in the black space (now just holding links) */
 .navbar {
-    position: absolute;
+    position: fixed; /* Changed to fixed to force native hardware layer, mimicking the working hamburger button */
     top: 20px;
     left: 0;
     width: 100%;
@@ -57,7 +56,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    z-index: 10;
+    z-index: 2000;
     pointer-events: none;
 }
 
@@ -65,11 +64,16 @@ body {
     pointer-events: auto;
 }
 
+#fixed-header a {
+    pointer-events: none; /* The link wrapping the logo shouldn't block the center either */
+}
+
 .logo-img {
     height: 130px;
     width: auto;
     object-fit: contain;
     margin-top: -25px;
+    pointer-events: none !important; /* Force this so the wide transparent PNG edges NEVER block navbar clicks */
 }
 
 .nav-links {
@@ -81,6 +85,9 @@ body {
 
 .nav-links a {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--text-muted);
     text-decoration: none;
     font-size: 13px;
@@ -92,6 +99,11 @@ body {
     z-index: 1;
 }
 
+.nav-links a span {
+    position: relative;
+    z-index: 1; /* Puts the text exactly above the red background */
+}
+
 /* The Brave Futuristic Hover Effect (Slanted Red Slice) */
 .nav-links a::before {
     content: '';
@@ -101,7 +113,7 @@ body {
     width: 100%;
     height: 100%;
     background: var(--accent-red);
-    z-index: -1;
+    z-index: 0; /* No longer negative! Guaranteed to not fall behind the page */
     /* Slanted parallelogram shape matching the overall cutouts */
     clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
     /* Animation setup: start hidden, scale from right */
@@ -120,51 +132,97 @@ body {
     transform-origin: left;
 }
 
-/* Bold 3-Line Hamburger Icon */
+/* ==============================
+   FINGERPRINT MENU ICON
+   ============================== */
 .hamburger-btn {
     position: relative;
-    width: 36px;
-    height: 22px; /* Height to accommodate 3 thick lines */
+    width: 44px;
+    height: 44px;
     cursor: pointer;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-top: 20px;
-    z-index: 2001; /* Above the fullscreen menu overlay */
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    z-index: 2010;
+    flex-shrink: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.hamburger-btn .line {
+.hamburger-btn:hover {
+    transform: scale(1.12);
+    opacity: 0.7;
+}
+
+/* ---- Fingerprint image ---- */
+.fp-image {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: 3px; /* Bolder lines */
-    background-color: var(--text-main);
-    transition: transform 0.4s ease, opacity 0.4s ease, background-color 0.4s ease, width 0.4s ease;
-    transform-origin: center;
-    border-radius: 2px; /* Soft edges for thick lines */
+    height: 100%;
+    object-fit: contain;
+    /* finger.png is black — invert to white */
+    filter: invert(1);
+    opacity: 1;
+    transition: opacity 0.25s ease;
 }
 
-/* Make the middle line slightly shorter */
-.hamburger-btn .line:nth-child(2) {
-    width: 75%;
-}
-
-body:not(.menu-open) .hamburger-btn:hover .line:nth-child(2) {
+/* Cross SVG overlay — sits on top of the fingerprint image */
+.fp-cross-svg {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    background-color: var(--accent-red);
+    height: 100%;
 }
 
-/* Open State for Hamburger (transforms to X) */
-/* Container height is 22px. Top line is at 0, bottom line is at 19px (since height is 3px). Distance to center is 9.5px */
-body.menu-open .hamburger-btn .line:nth-child(1) {
-    transform: translateY(9.5px) rotate(45deg);
+/* ---- Cross lines (hidden by default) ---- */
+.fp-cross {
+    stroke: var(--accent-red);
+    fill: none;
+    stroke-linecap: round;
+    opacity: 0;
+    stroke-dasharray: 85;
+    stroke-dashoffset: 85;
 }
 
-body.menu-open .hamburger-btn .line:nth-child(2) {
+/* ---- OPEN STATE ---- */
+/* 1. Fade fingerprint image OUT (and keep it hidden during closing) */
+body.menu-open .fp-image,
+body.menu-closing .fp-image {
     opacity: 0;
 }
 
-body.menu-open .hamburger-btn .line:nth-child(3) {
-    transform: translateY(-9.5px) rotate(-45deg);
+/* 2. Draw cross lines IN */
+body.menu-open .fp-cross {
+    opacity: 1;
+    animation: fp-draw-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+body.menu-open .fp-cross-1 { animation-delay: 0.22s; }
+body.menu-open .fp-cross-2 { animation-delay: 0.30s; }
+
+@keyframes fp-draw-in {
+    from { stroke-dashoffset: 85; opacity: 1; }
+    to   { stroke-dashoffset: 0;  opacity: 1; }
+}
+
+/* ---- CLOSING STATE ---- */
+body.menu-closing .fp-cross {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    animation: fp-draw-out 0.35s cubic-bezier(0.86, 0, 0.07, 1) forwards;
+}
+body.menu-closing .fp-cross-2 { animation-delay: 0.06s; }
+body.menu-closing .fp-cross-1 { animation-delay: 0.12s; }
+
+@keyframes fp-draw-out {
+    from { stroke-dashoffset: 0;  opacity: 1; }
+    to   { stroke-dashoffset: 85; opacity: 0; }
+}
+
+/* Default (not open, not closing) — invisible */
+body:not(.menu-open):not(.menu-closing) .fp-cross {
+    opacity: 0;
+    stroke-dashoffset: 85;
 }
 
 /* Sleek Fullscreen Menu Overlay */
@@ -176,7 +234,7 @@ body.menu-open .hamburger-btn .line:nth-child(3) {
     height: 100vh;
     background-color: rgba(5, 5, 5, 0.95); /* Deep, almost solid black */
     backdrop-filter: blur(10px);
-    z-index: 1500;
+    z-index: 2005;
     display: flex;
     justify-content: flex-start; /* Left align for a more editorial look */
     align-items: center;
@@ -251,18 +309,14 @@ body.menu-open .fullscreen-menu {
     z-index: 1;
 }
 
-/* Background image and cutouts */
+/* Background layer with video and cutouts */
 .hero-bg-layer {
-    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), linear-gradient(rgba(197,0,0,0.2), rgba(197,0,0,0.2)), url('hero_rave.jpg');
-    background-size: cover;
-    background-position: center 20%;
-    /* opacity removed to prevent elements behind it from showing through */
+    overflow: hidden;
     z-index: -1;
     transform-origin: center center;
     will-change: transform;
@@ -289,6 +343,28 @@ body.menu-open .fullscreen-menu {
         
         5px calc(100% - 100px), 2px calc(100% - 101px), 1px calc(100% - 102px), 0 calc(100% - 105px) /* Bottom-Left 5px Curve */
     );
+}
+
+/* Dark + red tint overlay on top of the video */
+.hero-bg-layer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(50, 0, 0, 0.5); /* Dark tint with red tone */
+    mix-blend-mode: multiply;
+}
+
+.hero-video, .hero-bg-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
 }
 
 /* Hero Content */
@@ -357,11 +433,16 @@ body.menu-open .fullscreen-menu {
 
 /* The Button in the Bottom Notch */
 .hero-tab-button {
-    position: absolute;
-    bottom: 45px; /* Inside the wider DJ image tab, adjusted for the 20px margin */
+    position: fixed; /* Fixed so it stays on screen when outside hero-section */
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
+    width: 360px;
+    height: 70px;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cta-btn {
@@ -381,6 +462,7 @@ body.menu-open .fullscreen-menu {
     display: flex;
     align-items: center;
     gap: 10px;
+    z-index: 2;
 }
 
 /* Shiny Sweep Effect */
@@ -417,17 +499,16 @@ body.menu-open .fullscreen-menu {
 
 /* Bottom Bar */
 .bottom-bar {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    width: calc(100% - 40px);
-    height: 100px;
+    position: fixed; /* Native hardware layer fix */
+    bottom: 40px;
+    left: 40px;
+    width: calc(100vw - 80px);
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 4vw;
-    z-index: 10;
-    pointer-events: none; /* Prevent blocking hover on the center button */
+    align-items: flex-end;
+    padding: 0 4vw; /* Same padding as header */
+    z-index: 2000;
+    pointer-events: none; /* Let clicks pass through empty space */
 }
 
 .bottom-bar > * {
@@ -489,7 +570,7 @@ body.menu-open .fullscreen-menu {
 .small-preview {
     width: 70px;
     height: 45px;
-    background-image: url('hero_rave.jpg');
+    background-image: url('assets/hero_rave.jpg');
     background-size: cover;
     background-position: center;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -752,10 +833,10 @@ body.menu-open .fullscreen-menu {
     background-color: var(--bg-color); /* Opaque background hides the layers underneath */
 }
 
-/* Stacking Order (1 is on top, 3 is on bottom) */
-.about-row:nth-child(1) { z-index: 3; }
-.about-row:nth-child(2) { z-index: 2; }
-.about-row:nth-child(3) { z-index: 1; }
+/* Stacking Order & Initial Visibility */
+.about-row:nth-child(1) { z-index: 3; opacity: 1; }
+.about-row:nth-child(2) { z-index: 2; opacity: 0; }
+.about-row:nth-child(3) { z-index: 1; opacity: 0; }
 
 .about-row.reverse {
     flex-direction: row-reverse;
@@ -1074,7 +1155,7 @@ body.menu-open .fullscreen-menu {
     width: 100%;
     height: 100%;
     /* Use the same background image with red shift */
-    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), linear-gradient(rgba(197,0,0,0.2), rgba(197,0,0,0.2)), url('hero_rave.jpg');
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), linear-gradient(rgba(197,0,0,0.2), rgba(197,0,0,0.2)), url('assets/hero_rave.jpg');
     background-size: cover;
     background-position: center bottom;
     z-index: -1;
@@ -1125,6 +1206,7 @@ body.menu-open .fullscreen-menu {
     letter-spacing: 5px;
     z-index: 10;
 }
+
 
 .contact-info-list {
     display: flex;
