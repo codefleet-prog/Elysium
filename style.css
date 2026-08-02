@@ -14,6 +14,10 @@
     --font-main: 'Good Timing Light', 'Outfit', sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -137,8 +141,8 @@ body {
    ============================== */
 .hamburger-btn {
     position: relative;
-    width: 44px;
-    height: 44px;
+    width: 60px;
+    height: 60px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -161,8 +165,6 @@ body {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* finger.png is black — invert to white */
-    filter: invert(1);
     opacity: 1;
     transition: opacity 0.25s ease;
 }
@@ -170,14 +172,17 @@ body {
 /* Cross SVG overlay — sits on top of the fingerprint image */
 .fp-cross-svg {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    width: 44px;
+    height: 44px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* ---- Cross lines (hidden by default) ---- */
 .fp-cross {
     stroke: var(--accent-red);
+    stroke-width: 6; /* Thinner cross */
     fill: none;
     stroke-linecap: round;
     opacity: 0;
@@ -578,6 +583,10 @@ body.menu-open .fullscreen-menu {
     transition: opacity 0.3s ease;
 }
 
+.small-preview-link {
+    text-decoration: none;
+}
+
 .small-preview:hover {
     opacity: 1;
 }
@@ -906,10 +915,23 @@ body.menu-open .fullscreen-menu {
 /* --- EVENTS SECTION --- */
 .events-section {
     position: relative;
-    padding: 120px 6vw;
+    padding: 120px 6vw 250px 6vw;
     background-color: #050505; /* Deep, near-black */
     min-height: 100vh;
     overflow: hidden;
+}
+
+/* Fade to black at the bottom for smooth transition */
+.events-section::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 350px;
+    background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    pointer-events: none;
+    z-index: 5;
 }
 
 /* Sliding Geometric Shape */
@@ -960,12 +982,11 @@ body.menu-open .fullscreen-menu {
     background-color: rgba(20, 20, 20, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    padding: 60px 50px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    min-height: 450px;
     position: relative;
+    overflow: hidden;
+    align-self: start;
 }
 
 /* Stagger the second card */
@@ -985,12 +1006,33 @@ body.menu-open .fullscreen-menu {
     pointer-events: none;
 }
 
-.event-card-content {
+.event-poster {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
     position: relative;
-    z-index: 1;
+}
+
+.event-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s ease;
+}
+
+.event-card:hover .event-poster img {
+    transform: scale(1.05);
+}
+
+.event-card-content {
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    justify-content: space-between;
+    flex-grow: 1;
+    position: relative;
+    z-index: 1;
 }
 
 .event-date {
@@ -998,11 +1040,11 @@ body.menu-open .fullscreen-menu {
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 2px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .event-name {
-    font-size: 40px;
+    font-size: 34px;
     font-weight: 700;
     color: white;
     margin-bottom: 15px;
@@ -1011,11 +1053,12 @@ body.menu-open .fullscreen-menu {
 
 .event-location {
     color: rgba(255,255,255,0.5);
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .event-btn {
     align-self: flex-start;
+    margin-top: 30px;
     background: transparent;
     color: white;
     border: 1px solid rgba(255,255,255,0.3);
@@ -1089,6 +1132,141 @@ body.menu-open .fullscreen-menu {
     }
 }
 
+/* --- GALLERY SECTION --- */
+.gallery-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color);
+    overflow: hidden;
+}
+
+.gallery-overlay-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 600px; /* Increased gradient height */
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    z-index: 10;
+    display: flex;
+    justify-content: flex-start; /* Align left */
+    align-items: flex-start;
+    padding-top: 100px;
+    padding-left: 6vw; /* Misaligned left edge */
+    pointer-events: none;
+}
+
+.gallery-overlay-top h2 {
+    font-size: 80px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-main);
+    letter-spacing: 4px;
+    margin-left: -20px; /* Slight misaligned shift to the left */
+}
+
+.gallery-pin-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gallery-center {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    will-change: transform, width, height, border-radius;
+}
+
+.gallery-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.masonry-column {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    /* Irregular gaps handled on individual items */
+    width: 28vw;
+    height: 85vh; /* Slightly taller for more breathing room */
+    z-index: 1;
+}
+
+.col-left {
+    left: 4vw;
+}
+
+.col-right {
+    right: 4vw;
+}
+
+.gallery-img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    will-change: transform, opacity;
+}
+
+/* Abstract irregular layout */
+.g-left-1 { 
+    height: 48%; 
+    margin-bottom: 55px; 
+}
+.g-left-2 { 
+    height: 38%; 
+    width: 88%; 
+    margin-left: 12%; 
+    margin-top: 15px; 
+}
+.g-right-1 { 
+    height: 40%; 
+    width: 90%; 
+    margin-bottom: 80px; 
+}
+.g-right-2 { 
+    height: 46%; 
+    width: 95%; 
+    margin-left: 5%; 
+    margin-top: 35px; 
+}
+
+.gallery-cta-wrapper {
+    position: absolute;
+    bottom: 50px;
+    z-index: 30; /* Increased z-index to guarantee it's above everything */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.gallery-btn {
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .masonry-column {
+        width: 30vw;
+        gap: 10px;
+    }
+    .col-left { left: 2vw; }
+    .col-right { right: 2vw; }
+    .gallery-img { border-radius: 8px; }
+}
+
 /* --- SCROLL-DRIVEN TRANSITION LOADER --- */
 .scroll-loader {
     position: absolute;
@@ -1154,8 +1332,8 @@ body.menu-open .fullscreen-menu {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Use the same background image with red shift */
-    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), linear-gradient(rgba(197,0,0,0.2), rgba(197,0,0,0.2)), url('assets/hero_rave.jpg');
+    /* Use the same background image with red shift but lighter dark overlay */
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), linear-gradient(rgba(197,0,0,0.2), rgba(197,0,0,0.2)), url('assets/hero_rave.jpg');
     background-size: cover;
     background-position: center bottom;
     z-index: -1;

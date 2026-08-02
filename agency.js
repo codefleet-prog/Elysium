@@ -241,33 +241,41 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Pin the entire resident section for 1500px of scrolling
+    // Pin the entire resident section so title stays, and pin at top so scroll limit is not an issue
     const residentTl = gsap.timeline({
         scrollTrigger: {
-            trigger: ".resident-section",
-            start: "top top", // Pin when the top of the section hits the top of viewport
-            end: "+=1500",    // Pin duration
-            scrub: 1,         // Smooth scrubbing
-            pin: true,        // Pin the section
-            anticipatePin: 1  // Prevent snapping
+            trigger: ".resident-section", 
+            start: "top top",         
+            end: `+=${residentRows.length * 1500}`, 
+            scrub: 1,         
+            pin: true,        
+            anticipatePin: 1  
         }
     });
 
-    // Phase 1: Slide DJ 1 out to the left to reveal DJ 2
-    if (residentRows.length > 1) {
-        // Make Row 2 visible instantly right before Row 1 starts sliding out
-        residentTl.to(residentRows[1], { opacity: 1, duration: 0.01 });
+    // Loop through all resident DJs dynamically
+    for (let i = 0; i < residentRows.length - 1; i++) {
+        // 1. Pause briefly so the user can read the current DJ
+        residentTl.to({}, { duration: 0.5 });
+        
+        // 2. Instantly make the next DJ row visible beneath the current one
+        residentTl.to(residentRows[i+1], { opacity: 1, duration: 0.01 });
 
-        residentTl.to(residentRows[0], {
-            xPercent: -100, // Slide completely out of view
+        // 3. Slide the current DJ row out to reveal the one underneath
+        const isReverse = residentRows[i].classList.contains('reverse');
+        const slideOutX = isReverse ? 100 : -100; // Slide left (-100) if image is right, slide right (100) if image is left
+        
+        residentTl.to(residentRows[i], {
+            xPercent: slideOutX,
             ease: "power2.inOut",
             duration: 1
-        }, "<");
+        });
         
-        // Add a slight parallax to the image inside Row 1 as it leaves
-        const img1 = residentRows[0].querySelector(".parallax-img");
-        if (img1) {
-            residentTl.to(img1, { xPercent: 30, duration: 1 }, "<");
+        // 4. Add a slight parallax to the image as it slides away
+        const img = residentRows[i].querySelector(".parallax-img");
+        if (img) {
+            const parallaxX = isReverse ? -30 : 30;
+            residentTl.to(img, { xPercent: parallaxX, duration: 1 }, "<");
         }
     }
 

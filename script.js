@@ -198,48 +198,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- SCROLL-DRIVEN CONTACT TRANSITION (mirrors the Hero in reverse) ---
-    // Hero:    full-screen → elements slide out → bg shrinks to card → logo appears
-    // Contact: black blocks → small card slides in from right → scales up to full → elements slide in
-    const sBlocks = gsap.utils.toArray(".s-block");
-
-    // Hide contact elements — they appear in Phase 4
-    gsap.set(".contact-section .contact-logo", { y: 150, opacity: 0 });
-    gsap.set(".contact-section .hero-tab-button", { y: 150, opacity: 0 });
-    gsap.set(".contact-section .c-item", { y: 80, opacity: 0 });
-    gsap.set(".contact-section .s-icon", { y: 40, opacity: 0 });
-
-    // Start the container small and shifted completely off-screen to the right
-    gsap.set(".contact-container", {
-        scale: 0.35,
-        xPercent: 150, // 150% pushes it completely out of the right side of the viewport
-        borderRadius: "20px"
-    });
-
-    // FIX: Make contact section position:fixed so it stays in viewport during the pin.
-    // Without this, it scrolls out of view during the 4000px pin and nothing is visible.
-    gsap.set(".contact-section", {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        marginTop: 0,
-        opacity: 0   // Invisible until Phase 1 fades it in
-    });
-
-    const loaderTl = gsap.timeline({
+    // --- GALLERY ANIMATION ---
+    const galleryTl = gsap.timeline({
         scrollTrigger: {
-            trigger: ".events-section",
-            start: "bottom bottom",
-            end: "+=4000",
+            trigger: ".gallery-section",
+            start: "top top",
+            end: "+=6500", // 2500px for gallery + 4000px for contact transition
             pin: true,
-            scrub: 1, // Restored 1-second smoothing for buttery feel
+            scrub: 1,
             anticipatePin: 1,
             onEnter: () => {
                 gsap.set(".contact-section", {
                     position: "fixed",
                     top: 0,
                     left: 0,
-                    marginTop: 0
+                    marginTop: 0,
+                    pointerEvents: "none"
                 });
             },
             onLeave: () => {
@@ -255,7 +229,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     position: "fixed",
                     top: 0,
                     left: 0,
-                    marginTop: 0
+                    marginTop: 0,
+                    pointerEvents: "none"
                 });
             },
             onLeaveBack: () => {
@@ -269,58 +244,129 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Phase 1 (0 → 1.48): Black blocks slide up as visual curtain
-    // 7 blocks * 0.08 stagger = 0.48 added to 1.0 duration = 1.48 total
-    loaderTl.fromTo(sBlocks, 
+    // 1. Shrink hero image to center and fade out the top overlay title
+    galleryTl.to(".gallery-center", {
+        width: "35vw",
+        height: "80vh",
+        borderRadius: "20px",
+        duration: 1,
+        ease: "power2.inOut"
+    }, 0);
+
+    galleryTl.to(".gallery-overlay-top", {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.inOut"
+    }, 0);
+
+    // 2. Slide in left column from left
+    galleryTl.fromTo(".col-left", {
+        x: -300,
+        opacity: 0
+    }, {
+        x: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power2.out"
+    }, 0.5);
+
+    // 3. Slide in right column from right
+    galleryTl.fromTo(".col-right", {
+        x: 300,
+        opacity: 0
+    }, {
+        x: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power2.out"
+    }, 0.5);
+
+    // 4. Fade in CTA button
+    galleryTl.to(".gallery-cta-wrapper", {
+        opacity: 1,
+        y: -20,
+        duration: 0.5
+    }, 1.0);
+
+    // Pause for a bit so the user can enjoy the gallery layout
+    galleryTl.to({}, { duration: 1.5 }); // Adds empty time, total timeline is now 3.0
+
+    // --- SCROLL-DRIVEN CONTACT TRANSITION (mirrors the Hero in reverse) ---
+    const sBlocks = gsap.utils.toArray(".s-block");
+
+    // Hide contact elements — they appear in Phase 4
+    gsap.set(".contact-section .contact-logo", { y: 150, opacity: 0 });
+    gsap.set(".contact-section .hero-tab-button", { y: 150, opacity: 0 });
+    gsap.set(".contact-section .c-item", { y: 80, opacity: 0 });
+    gsap.set(".contact-section .s-icon", { y: 40, opacity: 0 });
+
+    // Start the container small and shifted completely off-screen to the right
+    gsap.set(".contact-container", {
+        scale: 0.35,
+        xPercent: 150,
+        borderRadius: "20px"
+    });
+
+    gsap.set(".contact-section", {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        marginTop: 0,
+        opacity: 0,
+        pointerEvents: "none"
+    });
+
+    // Phase 1 (3.0 → 4.5): Black blocks slide up as visual curtain OVER the gallery
+    galleryTl.fromTo(sBlocks, 
         { y: "100%" },
         { y: "0%", duration: 1.0, stagger: 0.08, ease: "none" }, 
-        0
-    );
-
-    // Show the contact section ONLY when the blocks have fully covered the screen (1.5)
-    loaderTl.fromTo(".contact-section", 
-        { opacity: 0 },
-        { opacity: 1, duration: 0.01, ease: "none" }, 
-        1.5
-    );
-
-    // Phase 2 (1.5 → 3.0): Contact container slides from right to center
-    loaderTl.fromTo(".contact-container", 
-        { xPercent: 150 },
-        { xPercent: 0, duration: 1.5, ease: "power2.inOut" }, 
-        1.5
-    );
-
-    // Phase 3 (3.0 → 4.5): Container scales up from card to full screen
-    loaderTl.fromTo(".contact-container", 
-        { scale: 0.35, borderRadius: "20px" },
-        { scale: 1, borderRadius: "0px", duration: 1.5, ease: "power2.inOut" }, 
         3.0
     );
 
-    // Phase 4 (4.5 → 6.3): Elements slide up into view — same style as hero section
-    loaderTl.fromTo(".contact-section .contact-logo", 
-        { y: 150, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.5, ease: "power2.inOut" }, 
+    // Show the contact section ONLY when the blocks have fully covered the screen (4.5)
+    galleryTl.fromTo(".contact-section", 
+        { opacity: 0, pointerEvents: "none" },
+        { opacity: 1, pointerEvents: "auto", duration: 0.01, ease: "none" }, 
         4.5
     );
 
-    loaderTl.fromTo(".contact-section .hero-tab-button", 
+    // Phase 2 (4.5 → 6.0): Contact container slides from right to center
+    galleryTl.fromTo(".contact-container", 
+        { xPercent: 150 },
+        { xPercent: 0, duration: 1.5, ease: "power2.inOut" }, 
+        4.5
+    );
+
+    // Phase 3 (6.0 → 7.5): Container scales up from card to full screen
+    galleryTl.fromTo(".contact-container", 
+        { scale: 0.35, borderRadius: "20px" },
+        { scale: 1, borderRadius: "0px", duration: 1.5, ease: "power2.inOut" }, 
+        6.0
+    );
+
+    // Phase 4 (7.5 → 9.3): Elements slide up into view — same style as hero section
+    galleryTl.fromTo(".contact-section .contact-logo", 
         { y: 150, opacity: 0 },
         { y: 0, opacity: 1, duration: 1.5, ease: "power2.inOut" }, 
-        4.7
+        7.5
     );
 
-    loaderTl.fromTo(".contact-section .c-item", 
+    galleryTl.fromTo(".contact-section .hero-tab-button", 
+        { y: 150, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.5, ease: "power2.inOut" }, 
+        7.7
+    );
+
+    galleryTl.fromTo(".contact-section .c-item", 
         { y: 80, opacity: 0 },
         { y: 0, opacity: 1, duration: 1.2, stagger: 0.1, ease: "power2.inOut" }, 
-        5.0
+        8.0
     );
 
-    loaderTl.fromTo(".contact-section .s-icon", 
+    galleryTl.fromTo(".contact-section .s-icon", 
         { y: 40, opacity: 0 },
         { y: 0, opacity: 1, duration: 1.0, stagger: 0.1, ease: "power2.inOut" }, 
-        5.3
+        8.3
     );
 
     // --- HAMBURGER MENU LOGIC ---

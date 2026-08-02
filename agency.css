@@ -14,6 +14,18 @@
     object-position: center 20%;
 }
 
+/* Minimal redshift overlay for the hero background */
+.hero-bg-layer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--accent-red); /* Using 'background' instead of 'background-color' to override the gradient from style.css */
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 20; /* Keep it above the glitch slices */
+}
+
 /* ---- Glitch Overlay Container ---- */
 .glitch-overlay {
     position: absolute;
@@ -106,8 +118,15 @@
 }
 
 /* Stacking Order & Initial Visibility */
-.resident-row:nth-child(1) { z-index: 2; opacity: 1; }
-.resident-row:nth-child(2) { z-index: 1; opacity: 0; }
+.resident-row {
+    opacity: 0;
+    z-index: 1;
+}
+
+.resident-row:nth-child(1) { z-index: 4; opacity: 1; }
+.resident-row:nth-child(2) { z-index: 3; }
+.resident-row:nth-child(3) { z-index: 2; }
+.resident-row:nth-child(4) { z-index: 1; }
 
 .resident-row.reverse {
     flex-direction: row-reverse;
