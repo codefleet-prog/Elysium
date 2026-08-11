@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H9X - ELYSIUM Resident</title>
+    <link rel="stylesheet" href="resident.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- The New Fixed Top Header -->
+    <header id="fixed-header">
+        <a href="index.html">
+            <img src="assets/logo.png" alt="ELYSIUM Logo" class="logo-img">
+        </a>
+        <div class="hamburger-btn" id="fingerprint-btn" aria-label="Open menu">
+            <img class="fp-image" src="assets/logo-finger.png" alt="">
+            <svg class="fp-cross-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="fp-cross fp-cross-1" d="M 22,22 L 78,78" stroke="white" stroke-width="10" stroke-linecap="round" fill="none"/>
+                <path class="fp-cross fp-cross-2" d="M 78,22 L 22,78" stroke="white" stroke-width="10" stroke-linecap="round" fill="none"/>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Top Text Navbar -->
+    <header class="navbar">
+        <nav class="nav-links">
+            <a href="index.html"><span>KEZDŐLAP</span></a>
+            <a href="index.html#rolunk"><span>RÓLUNK</span></a>
+            <a href="agency.html"><span>AGENCY</span></a>
+            <a href="index.html#esemenyek"><span>ESEMÉNYEK</span></a>
+            <a href="index.html#kapcsolat"><span>KAPCSOLAT</span></a>
+        </nav>
+    </header>
+
+    <!-- Global Fullscreen Menu Overlay -->
+    <div class="fullscreen-menu">
+        <nav class="menu-nav-links">
+            <a href="index.html">KEZDŐLAP</a>
+            <a href="index.html#rolunk">RÓLUNK</a>
+            <a href="agency.html">AGENCY</a>
+            <a href="index.html#esemenyek">ESEMÉNYEK</a>
+            <a href="index.html#kapcsolat">KAPCSOLAT</a>
+        </nav>
+    </div>
+
+    <!-- Arrow Navigation -->
+    <a href="resident-alvkard.html" class="resident-nav-left" aria-label="Previous Resident">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </a>
+    <a href="resident-miguel.html" class="resident-nav-right" aria-label="Next Resident">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+    <!-- Pagination Dots -->
+    <div class="resident-pagination">
+        <a href="resident-alvkard.html" class="dot "></a>
+        <a href="resident-h9x.html" class="dot active"></a>
+        <a href="resident-miguel.html" class="dot "></a>
+        <a href="resident-satellite84.html" class="dot "></a>
+    </div>
+
+
+    <!-- Social Icons -->
+    <div class="resident-socials">
+        <a href="https://www.instagram.com/harkaly_9x?igsh=YWZpaWdrdjFxbjJs" target="_blank">Instagram</a>
+        <a href="https://soundcloud.com/levente-harkaly?ref=clipboard&p=i&c=0&si=6E1E88AA4BD64A2BBF5E0A2B14C53887&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank">SoundCloud</a>
+    </div>
+    
+    <!-- Resident Hero Section -->
+    <section class="resident-single-hero">
+        <!-- Left Side: Typography -->
+        <div class="hero-left">
+            <div class="hero-text-container">
+                <h1 class="resident-huge-name">
+                    <span class="char">H</span><span class="char">9</span><span class="char">X</span>
+                </h1>
+                <div class="resident-desc-wrapper">
+                    <h3 class="resident-highlight">Diving deep into the darker, industrial edges</h3>
+                    <p class="resident-description">Coming from a strong musical family, H9X was surrounded by rhythm and melody from an early age. What started as curiosity turned into passion when he began DJing in 2022, first exploring house music before diving deep into the darker, industrial edges of techno.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Graphic Composition -->
+        <div class="hero-right">
+            <!-- The Accent Red Circle -->
+            <div class="accent-circle"></div>
+            <!-- The Cutout Subject Image -->
+            <img src="assets/H9X-single-cutout.png" alt="H9X" class="cutout-image">
+        </div>
+    </section>
+
+    <!-- GSAP and scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="resident.js"></script>
+</body>
+</html>
