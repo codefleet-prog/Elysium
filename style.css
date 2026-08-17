@@ -1342,7 +1342,7 @@ body.menu-open .fullscreen-menu {
 
 .sponsor-marquee-track {
     display: flex;
-    width: 100vw;
+    width: max-content;
 }
 
 .sponsor-marquee {
@@ -1350,6 +1350,7 @@ body.menu-open .fullscreen-menu {
     align-items: center;
     gap: 150px;
     padding-right: 150px;
+    flex-shrink: 0; /* Prevents logos from squishing or wrapping */
     animation: sponsorMarquee 30s linear infinite;
 }
 
