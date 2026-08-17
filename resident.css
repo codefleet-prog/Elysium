@@ -67,7 +67,7 @@ body, html {
     max-width: 50%;
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: flex-end; /* Align image to the bottom */
     justify-content: center;
     z-index: 10;
 }
@@ -75,10 +75,11 @@ body, html {
 /* The Accent Red Circle */
 .accent-circle {
     position: absolute;
-    width: 45vw; /* Responsive circle size */
-    height: 45vw;
-    max-width: 600px;
-    max-height: 600px;
+    bottom: 5vh; /* Align towards bottom behind the image */
+    width: 40vw; /* Reduced slightly */
+    height: 40vw;
+    max-width: 500px; /* Reduced from 600px */
+    max-height: 500px;
     border-radius: 50%;
     background-color: var(--accent-red);
     transform: scale(0); /* For GSAP animation */
@@ -88,8 +89,8 @@ body, html {
 /* The Cutout Image */
 .cutout-image {
     position: relative;
-    max-width: 120%; /* Allow it to overflow the circle slightly */
-    max-height: 110vh; /* Allow it to span the whole height */
+    max-width: 100%; /* Reduced from 120% */
+    max-height: 90vh; /* Reduced from 110vh */
     object-fit: contain;
     z-index: 2; /* In front of the circle */
     opacity: 0; /* For GSAP animation */
@@ -99,7 +100,13 @@ body, html {
 
 /* Modifier for images that need to be smaller */
 .cutout-image.scale-small {
-    transform: scale(0.85) translateY(50px);
+    transform: scale(0.70) translateY(50px);
+    transform-origin: bottom center;
+}
+
+/* Modifier for images that need to be larger */
+.cutout-image.scale-large {
+    transform: scale(1.15) translateY(50px);
     transform-origin: bottom center;
 }
 

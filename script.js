@@ -337,11 +337,29 @@ document.addEventListener("DOMContentLoaded", () => {
         4.5
     );
 
+    // Reveal Sponsor Title and Marquee
+    galleryTl.fromTo(".sponsor-title",
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1.0, ease: "power2.out" },
+        4.5
+    );
+    galleryTl.fromTo(".sponsor-marquee-track",
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1.0, ease: "power2.out" },
+        4.7
+    );
+
     // Phase 3 (6.0 → 7.5): Container scales up from card to full screen
     galleryTl.fromTo(".contact-container", 
         { scale: 0.35, borderRadius: "20px" },
         { scale: 1, borderRadius: "0px", duration: 1.5, ease: "power2.inOut" }, 
         6.0
+    );
+
+    // Fade out Sponsor Marquee as the container scales up to hide it at the bottom
+    galleryTl.to(".sponsor-marquee-container",
+        { opacity: 0, duration: 0.5, ease: "power2.inOut" },
+        6.8
     );
 
     // Phase 4 (7.5 → 9.3): Elements slide up into view — same style as hero section
