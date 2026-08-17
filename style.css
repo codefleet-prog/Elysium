@@ -919,6 +919,8 @@ body.menu-open .fullscreen-menu {
     background-color: #050505; /* Deep, near-black */
     min-height: 100vh;
     overflow: hidden;
+    margin-top: -2px; /* Pull up slightly to hide sub-pixel rendering seam from pinned section */
+    z-index: 20;
 }
 
 /* Fade to black at the bottom for smooth transition */
@@ -1033,6 +1035,19 @@ body.menu-open .fullscreen-menu {
     flex-grow: 1;
     position: relative;
     z-index: 1;
+}
+
+/* If the content is on top and the top-left is cut out, push the text down to clear the cutout */
+.event-card.cutout-tl .event-card-content:first-child {
+    padding-top: 110px; /* Reduced slightly to balance with the absolute button */
+}
+
+/* Move the button to the top-right corner to utilize the space beside the top-left cutout */
+.event-card.cutout-tl .event-btn {
+    position: absolute;
+    top: 35px;
+    right: 40px;
+    margin-top: 0;
 }
 
 .event-date {

@@ -72,18 +72,9 @@ body, html {
     z-index: 10;
 }
 
-/* The Accent Red Circle */
+/* The Accent Red Circle (Removed per user request) */
 .accent-circle {
-    position: absolute;
-    bottom: 5vh; /* Align towards bottom behind the image */
-    width: 40vw; /* Reduced slightly */
-    height: 40vw;
-    max-width: 500px; /* Reduced from 600px */
-    max-height: 500px;
-    border-radius: 50%;
-    background-color: var(--accent-red);
-    transform: scale(0); /* For GSAP animation */
-    z-index: 1;
+    display: none;
 }
 
 /* The Cutout Image */
