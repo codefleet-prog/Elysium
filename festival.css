@@ -1,0 +1,408 @@
+/* ============================================
+   AGENCY PAGE – Imports shared styles + overrides
+   ============================================ */
+@import url('style.css');
+
+/* ---- Hero Background Image (replaces video) ---- */
+.hero-bg-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+}
+
+/* Minimal redshift overlay for the hero background */
+.hero-bg-layer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--accent-red); /* Using 'background' instead of 'background-color' to override the gradient from style.css */
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 20; /* Keep it above the glitch slices */
+}
+
+/* ---- Glitch Overlay Container ---- */
+.glitch-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0; /* Hidden until glitch begins */
+    overflow: hidden;
+}
+
+/* ---- Individual Glitch Slices ---- */
+.glitch-slice {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    will-change: transform, opacity, filter;
+    transform: translateZ(0); /* Force GPU layer */
+}
+
+.glitch-slice-img {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1200%; /* SLICE_COUNT * 100% */
+    object-fit: cover;
+    object-position: center 20%;
+    pointer-events: none;
+}
+
+/* ---- Resident Content Section ---- */
+.resident-section {
+    position: relative;
+    z-index: 10;
+    background-color: var(--bg-color);
+    width: 100vw;
+    padding: 100px 6vw 120px 6vw;
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    overflow: hidden; /* For sliding elements */
+}
+
+.resident-container {
+    max-width: 1200px;
+    width: 100%;
+}
+
+.resident-title {
+    font-size: 80px;
+    font-weight: 800;
+    margin-bottom: 80px;
+    text-transform: uppercase;
+    color: var(--text-main);
+    letter-spacing: 4px;
+    text-align: center;
+}
+
+.resident-title::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 5px;
+    background: var(--accent-red);
+    margin: 20px auto 0 auto;
+    box-shadow: 0 0 15px var(--accent-red);
+}
+
+.resident-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+}
+
+.resident-card {
+    position: relative;
+    aspect-ratio: 1 / 1.1;
+    overflow: hidden;
+    background-color: var(--bg-color);
+    cursor: pointer;
+    display: flex;
+}
+
+.resident-card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transition: transform 0.8s cubic-bezier(0.2, 1, 0.2, 1);
+}
+
+/* Gradient that appears on hover */
+.resident-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(255, 0, 50, 1) 10%, rgba(255, 0, 50, 0) 90%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    mix-blend-mode: multiply; /* Creates the deep duotone look */
+    pointer-events: none;
+}
+
+.resident-card:hover .resident-card-bg {
+    transform: scale(1.08);
+}
+
+.resident-card:hover .resident-card-overlay {
+    opacity: 1;
+}
+
+.resident-card-name {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    font-size: 42px;
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    margin: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.resident-card-socials {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 2;
+}
+
+.resident-card:hover .resident-card-socials {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.resident-card-socials a {
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.resident-card-socials a:hover {
+    color: var(--accent-red);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .resident-title {
+        font-size: 60px;
+    }
+    .resident-card-name {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .resident-title {
+        font-size: 45px;
+    }
+    .resident-section {
+        padding: 80px 6vw;
+    }
+    .resident-grid {
+        grid-template-columns: 1fr;
+    }
+    .resident-card-name {
+        font-size: 28px;
+    }
+}
+
+/* Minimalist Scroll Down Indicator */
+.scroll-down-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.scroll-down-indicator:hover {
+    opacity: 1;
+}
+
+.scroll-text {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.scroll-line-container {
+    width: 2px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-line-animated {
+    width: 100%;
+    height: 50%;
+    background: var(--accent-red);
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: scrollLineDrop 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+@keyframes scrollLineDrop {
+    0% { transform: translateY(-100%); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(200%); opacity: 0; }
+}
+
+/* --- FESTIVAL INFO SECTION --- */
+.festival-info-section {
+    background-color: var(--bg-color);
+    padding: 100px 6vw;
+    color: white;
+    min-height: 50vh;
+}
+
+/* Override gallery gradient for festival page to be darker/larger */
+.gallery-section .gallery-overlay-top {
+    height: 800px;
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
+}
+
+.festival-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 60px;
+}
+
+.info-left {
+    flex: 1;
+}
+
+.info-left h2 {
+    font-size: 50px;
+    color: var(--text-main);
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.info-left p {
+    font-size: 18px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.info-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.countdown-box {
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 80px 40px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    min-width: 400px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.countdown-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(197,0,0,0.2) 0%, rgba(0,0,0,0) 50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.countdown-box h3 {
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: var(--accent-red);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 40px;
+    font-weight: 800;
+    position: relative;
+    z-index: 1;
+}
+
+.time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-block span {
+    font-family: "Outfit", sans-serif;
+}
+
+.time-block small {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 5px;
+    letter-spacing: 1px;
+}
+
+.separator {
+    color: var(--accent-red);
+    margin-top: -5px;
+}
+
+@media (max-width: 1024px) {
+    .festival-info-container {
+        flex-direction: column;
+    }
+    .info-right {
+        justify-content: center;
+        width: 100%;
+    }
+    .countdown-box {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* Festival Headline specific sizing */
+.festival-headline {
+    font-size: 50px;
+}
+
+@media (max-width: 1024px) {
+    .festival-headline {
+        font-size: 38px;
+    }
+}
+
+@media (max-width: 768px) {
+    .festival-headline {
+        font-size: 28px;
+    }
+}
