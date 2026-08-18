@@ -1358,6 +1358,7 @@ body.menu-open .fullscreen-menu {
 .sponsor-marquee-track {
     display: flex;
     width: max-content;
+    align-self: flex-start; /* Forces the track to start at the left edge, fixing the cut-off bug */
 }
 
 .sponsor-marquee {
