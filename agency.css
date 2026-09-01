@@ -1,7 +1,7 @@
 /* ============================================
    AGENCY PAGE – Imports shared styles + overrides
    ============================================ */
-@import url('style.css');
+@import url('style.css?v=10');
 
 /* ---- Hero Background Image (replaces video) ---- */
 .hero-bg-img {

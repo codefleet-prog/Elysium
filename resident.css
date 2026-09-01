@@ -1,7 +1,7 @@
 /* ============================================
    RESIDENT SINGLE PAGE – Imports shared styles
    ============================================ */
-@import url('style.css');
+@import url('style.css?v=10');
 
 /* Ensure body starts at the very top */
 body, html {
