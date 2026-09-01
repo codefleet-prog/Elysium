@@ -1359,6 +1359,7 @@ body.menu-open .fullscreen-menu {
     display: flex;
     width: max-content;
     align-self: flex-start; /* Forces the track to start at the left edge, fixing the cut-off bug */
+    animation: sponsorMarquee 45s linear infinite;
 }
 
 .sponsor-marquee {
@@ -1367,7 +1368,6 @@ body.menu-open .fullscreen-menu {
     gap: 150px;
     padding-right: 150px;
     flex-shrink: 0; /* Prevents logos from squishing or wrapping */
-    animation: sponsorMarquee 30s linear infinite;
 }
 
 .sponsor-marquee img {
@@ -1379,7 +1379,7 @@ body.menu-open .fullscreen-menu {
 
 @keyframes sponsorMarquee {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    100% { transform: translateX(-50%); }
 }
 
 
@@ -1414,9 +1414,6 @@ body.menu-open .fullscreen-menu {
         calc(50% + 420px) 0, 
         
         calc(100% - 5px) 0, calc(100% - 2px) 1px, calc(100% - 1px) 2px, 100% 5px, /* Top-Right 5px Curve */
-        
-        /* Right Edge */
-        100% calc(100% - 5px), calc(100% - 1px) calc(100% - 2px), calc(100% - 2px) calc(100% - 1px), calc(100% - 5px) 100%, /* Bottom-Right 5px Curve */
         
         /* Bottom Edge (Wider tab) - scaled up cutouts */
         100% calc(100% - 145px), calc(100% - 1px) calc(100% - 142px), calc(100% - 2px) calc(100% - 141px), calc(100% - 5px) calc(100% - 140px), /* Bottom-Right 5px Curve */
