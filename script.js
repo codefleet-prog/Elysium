@@ -1,3 +1,12 @@
+// Reload page on crossing the mobile breakpoint to reset DOM manipulation and GSAP
+let initialIsMobile = window.innerWidth <= 768;
+window.addEventListener('resize', () => {
+    let currentIsMobile = window.innerWidth <= 768;
+    if (initialIsMobile !== currentIsMobile) {
+        location.reload();
+    }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
     // Register ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
@@ -82,15 +91,49 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2.0); // Starts after picture scaling has progressed
 
     // --- ABOUT SECTION SCROLL ANIMATIONS (PINNED DECK) ---
+    // 1. On mobile, we split text and images into separate slide rows
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        const aboutRowsContainer = document.querySelector('.about-rows');
+        const originalRows = Array.from(document.querySelectorAll('.about-row'));
+        
+        originalRows.forEach(row => {
+            const textContent = row.querySelector('.about-text');
+            const imageContent = row.querySelector('.about-image-wrapper');
+            
+            if (textContent) {
+                const textRow = document.createElement('div');
+                textRow.className = 'about-row';
+                textRow.appendChild(textContent);
+                aboutRowsContainer.insertBefore(textRow, row);
+            }
+            if (imageContent) {
+                const imageRow = document.createElement('div');
+                imageRow.className = 'about-row';
+                imageRow.appendChild(imageContent);
+                aboutRowsContainer.insertBefore(imageRow, row);
+            }
+            row.remove(); // Remove the original combined row
+        });
+    }
+
     const aboutRows = gsap.utils.toArray(".about-row");
 
-    // Reveal the About Title and the First Row smoothly based on scroll position
+    // 2. Dynamically set z-index and opacity for any number of rows
+    aboutRows.forEach((row, index) => {
+        gsap.set(row, { 
+            zIndex: aboutRows.length - index, 
+            opacity: index === 0 ? 1 : 0 
+        });
+    });
+
+    // 3. Reveal the About Title smoothly based on scroll position
     gsap.from(".about-title", {
         scrollTrigger: {
             trigger: ".about-section",
-            start: "top 90%", // Triggers when the section is 90% down the viewport
-            end: "top 50%",   // Finishes when section is 50% down
-            scrub: 1          // Smooth scroll-driven animation
+            start: "top 90%",
+            end: "top 50%",
+            scrub: 1
         },
         y: 80,
         opacity: 0,
@@ -113,51 +156,35 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Pin the entire about section for 2000px of scrolling
+    // 4. Pin the entire about section and animate slides
+    const scrollDuration = aboutRows.length * 1000; // Dynamically scale scroll length
     const aboutTl = gsap.timeline({
         scrollTrigger: {
             trigger: ".about-section",
-            start: "top top", // Pin when the top of the section hits the top of viewport
-            end: "+=2000",    // Pin duration
-            scrub: 1,         // Smooth scrubbing
-            pin: true,        // Pin the section
-            anticipatePin: 1  // Prevent snapping
+            start: "top top",
+            end: "+=" + scrollDuration,
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1
         }
     });
 
-    // Phase 1: Slide Row 1 out to the left to reveal Row 2
-    if (aboutRows.length > 1) {
-        // Make Row 2 visible instantly right before Row 1 starts sliding out
-        aboutTl.to(aboutRows[1], { opacity: 1, duration: 0.01 });
+    // Loop through all rows and create sliding animation
+    for (let i = 0; i < aboutRows.length - 1; i++) {
+        // Make the next row visible right before the current one slides out
+        aboutTl.to(aboutRows[i + 1], { opacity: 1, duration: 0.01 });
 
-        aboutTl.to(aboutRows[0], {
-            xPercent: -100, // Slide completely out of view
-            ease: "power2.inOut",
-            duration: 1
-        }, "<"); // Run at the same time as the opacity toggle
-        
-        // Add a slight parallax to the image inside Row 1 as it leaves
-        const img1 = aboutRows[0].querySelector(".parallax-img");
-        if (img1) {
-            aboutTl.to(img1, { xPercent: 30, duration: 1 }, "<");
-        }
-    }
-
-    // Phase 2: Slide Row 2 out to the left to reveal Row 3
-    if (aboutRows.length > 2) {
-        // Make Row 3 visible right before Row 2 slides out
-        aboutTl.to(aboutRows[2], { opacity: 1, duration: 0.01 });
-
-        aboutTl.to(aboutRows[1], {
+        // Slide the current row out
+        aboutTl.to(aboutRows[i], {
             xPercent: -100,
             ease: "power2.inOut",
             duration: 1
         }, "<");
-
-        // Add a slight parallax to the image inside Row 2 as it leaves
-        const img2 = aboutRows[1].querySelector(".parallax-img");
-        if (img2) {
-            aboutTl.to(img2, { xPercent: 30, duration: 1 }, "<");
+        
+        // Add a slight parallax to the image inside the current row if it exists
+        const img = aboutRows[i].querySelector(".parallax-img");
+        if (img) {
+            aboutTl.to(img, { xPercent: 30, duration: 1 }, "<");
         }
     }
 
@@ -246,8 +273,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 1. Shrink hero image to center and fade out the top overlay title
     galleryTl.to(".gallery-center", {
-        width: "35vw",
-        height: "80vh",
+        width: isMobile ? "86vw" : "35vw",
+        height: isMobile ? "24vh" : "80vh",
+        y: isMobile ? "-26vh" : "0",
         borderRadius: "20px",
         duration: 1,
         ease: "power2.inOut"
@@ -259,27 +287,40 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power2.inOut"
     }, 0);
 
-    // 2. Slide in left column from left
-    galleryTl.fromTo(".col-left", {
-        x: -300,
-        opacity: 0
-    }, {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out"
-    }, 0.5);
+    if (isMobile) {
+        // Mobile: slide in left column (containing 2 images) from below
+        galleryTl.fromTo(".col-left", {
+            y: "50vh", // Start offscreen from bottom
+            opacity: 0
+        }, {
+            y: "-12vh", // Shift up to sit exactly below the top image
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        }, 0.5);
+    } else {
+        // Desktop: Slide in left column from left
+        galleryTl.fromTo(".col-left", {
+            x: -300,
+            opacity: 0
+        }, {
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        }, 0.5);
 
-    // 3. Slide in right column from right
-    galleryTl.fromTo(".col-right", {
-        x: 300,
-        opacity: 0
-    }, {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out"
-    }, 0.5);
+        // Desktop: Slide in right column from right
+        galleryTl.fromTo(".col-right", {
+            x: 300,
+            opacity: 0
+        }, {
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        }, 0.5);
+    }
 
     // 4. Fade in CTA button
     galleryTl.to(".gallery-cta-wrapper", {

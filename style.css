@@ -338,13 +338,13 @@ body.menu-open .fullscreen-menu {
         
         calc(100% - 5px) 0, calc(100% - 2px) 1px, calc(100% - 1px) 2px, 100% 5px, /* Top-Right 5px Curve */
         
-        /* Bottom Edge (Wider tab) */
+        /* Bottom Edge (Narrower tab) */
         100% calc(100% - 105px), calc(100% - 1px) calc(100% - 102px), calc(100% - 2px) calc(100% - 101px), calc(100% - 5px) calc(100% - 100px), /* Bottom-Right 5px Curve */
         
-        calc(50% + 300px) calc(100% - 100px), 
-        calc(50% + 240px) 100%, 
-        calc(50% - 240px) 100%, 
-        calc(50% - 300px) calc(100% - 100px), 
+        calc(50% + 220px) calc(100% - 100px), 
+        calc(50% + 160px) 100%, 
+        calc(50% - 160px) 100%, 
+        calc(50% - 220px) calc(100% - 100px), 
         
         5px calc(100% - 100px), 2px calc(100% - 101px), 1px calc(100% - 102px), 0 calc(100% - 105px) /* Bottom-Left 5px Curve */
     );
@@ -609,18 +609,18 @@ body.menu-open .fullscreen-menu {
     .hero-tab-button { bottom: 45px; }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .nav-links { display: none; }
     .main-headline { font-size: 36px; }
     .hero-bg-layer { 
         clip-path: polygon(
             0 5px, 1px 2px, 2px 1px, 5px 0, 
-            calc(50% - 120px) 0, calc(50% - 90px) 70px, calc(50% + 90px) 70px, calc(50% + 120px) 0, 
+            calc(50% - 120px) 0, calc(50% - 90px) 40px, calc(50% + 90px) 40px, calc(50% + 120px) 0, 
             calc(100% - 5px) 0, calc(100% - 2px) 1px, calc(100% - 1px) 2px, 100% 5px, 
             
-            100% calc(100% - 105px), calc(100% - 1px) calc(100% - 102px), calc(100% - 2px) calc(100% - 101px), calc(100% - 5px) calc(100% - 100px), 
-            calc(50% + 180px) calc(100% - 100px), calc(50% + 140px) 100%, calc(50% - 140px) 100%, calc(50% - 180px) calc(100% - 100px), 
-            5px calc(100% - 100px), 2px calc(100% - 101px), 1px calc(100% - 102px), 0 calc(100% - 105px)
+            100% calc(100% - 75px), calc(100% - 1px) calc(100% - 72px), calc(100% - 2px) calc(100% - 71px), calc(100% - 5px) calc(100% - 70px), 
+            calc(50% + 180px) calc(100% - 70px), calc(50% + 140px) 100%, calc(50% - 140px) 100%, calc(50% - 180px) calc(100% - 70px), 
+            5px calc(100% - 70px), 2px calc(100% - 71px), 1px calc(100% - 72px), 0 calc(100% - 75px)
         ); 
     }
     .bottom-bar { display: none; }
@@ -742,7 +742,7 @@ body.menu-open .fullscreen-menu {
     z-index: -1; /* Behind the marquees */
     pointer-events: none;
     /* Removed mix-blend-mode to fix Safari/WebKit disappearing repaint bugs on scroll */
-    will-change: transform, opacity;
+    
     transform: translateZ(0);
 }
 
@@ -843,9 +843,7 @@ body.menu-open .fullscreen-menu {
 }
 
 /* Stacking Order & Initial Visibility */
-.about-row:nth-child(1) { z-index: 3; opacity: 1; }
-.about-row:nth-child(2) { z-index: 2; opacity: 0; }
-.about-row:nth-child(3) { z-index: 1; opacity: 0; }
+/* These are now set dynamically in script.js to support any number of rows */
 
 .about-row.reverse {
     flex-direction: row-reverse;
@@ -1135,15 +1133,44 @@ body.menu-open .fullscreen-menu {
 }
 
 @media (max-width: 768px) {
-    .about-title {
-        font-size: 45px;
-    }
     .about-section {
-        padding: 80px 6vw;
+        height: 100dvh;
+        padding-top: 120px;
+    }
+    .about-title {
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+    .about-rows {
+        height: calc(100dvh - 220px);
+        min-height: 0;
+    }
+    .about-row, .about-row.reverse {
+        gap: 0;
+        justify-content: center;
+        align-items: center;
+        padding: 0 10px; /* Small horizontal padding to avoid edge hugging */
+    }
+    .about-text {
+        flex: none; /* Prevent vertical stretching so justify-content: center can work */
+    }
+    .mobile-smaller-text {
+        font-size: 16px; /* Just slightly smaller to fit */
+    }
+    .about-text p {
+        margin-bottom: 20px;
     }
     .highlight-text {
         font-size: 20px;
         padding-left: 20px;
+    }
+    .about-image-wrapper {
+        height: 100%;
+        width: 100%;
+        margin-bottom: 60px; /* Leave some space at the bottom */
+    }
+    .about-image-wrapper .about-image-mask {
+        border-radius: 20px;
     }
 }
 
@@ -1233,7 +1260,8 @@ body.menu-open .fullscreen-menu {
     width: 100%;
     object-fit: cover;
     border-radius: 15px;
-    will-change: transform, opacity;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 /* Abstract irregular layout */
@@ -1273,13 +1301,22 @@ body.menu-open .fullscreen-menu {
 }
 
 @media (max-width: 768px) {
+    .col-right { display: none; }
     .masonry-column {
-        width: 30vw;
-        gap: 10px;
+        width: 86vw;
+        height: auto;
+        gap: 2vh; /* Use vh for gap to be perfectly proportional */
     }
-    .col-left { left: 2vw; }
-    .col-right { right: 2vw; }
-    .gallery-img { border-radius: 8px; }
+    .col-left { 
+        left: 7vw; 
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    .gallery-img { border-radius: 12px; }
+    .g-left-1, .g-left-2 {
+        height: 24vh;
+        margin-bottom: 0 !important; /* Force override just in case */
+    }
 }
 
 /* --- SCROLL-DRIVEN TRANSITION LOADER --- */
@@ -1415,13 +1452,13 @@ body.menu-open .fullscreen-menu {
         
         calc(100% - 5px) 0, calc(100% - 2px) 1px, calc(100% - 1px) 2px, 100% 5px, /* Top-Right 5px Curve */
         
-        /* Bottom Edge (Wider tab) - scaled up cutouts */
+        /* Bottom Edge (Narrower tab) */
         100% calc(100% - 145px), calc(100% - 1px) calc(100% - 142px), calc(100% - 2px) calc(100% - 141px), calc(100% - 5px) calc(100% - 140px), /* Bottom-Right 5px Curve */
         
-        calc(50% + 400px) calc(100% - 140px), 
-        calc(50% + 240px) 100%, 
-        calc(50% - 240px) 100%, 
-        calc(50% - 400px) calc(100% - 140px), 
+        calc(50% + 220px) calc(100% - 140px), 
+        calc(50% + 160px) 100%, 
+        calc(50% - 160px) 100%, 
+        calc(50% - 220px) calc(100% - 140px), 
         
         5px calc(100% - 140px), 2px calc(100% - 141px), 1px calc(100% - 142px), 0 calc(100% - 145px) /* Bottom-Left 5px Curve */
     );
@@ -1515,4 +1552,55 @@ body.menu-open .fullscreen-menu {
 .s-icon:hover {
     transform: translateY(-3px);
     background-color: rgba(197, 0, 0, 0.1);
+}
+
+@media (max-width: 1200px) {
+    /* Contact Section Mobile Cleanup */
+    .contact-bg-layer {
+        clip-path: none !important;
+    }
+    .contact-container {
+        top: 20px !important;
+        left: 20px !important;
+        width: calc(100vw - 40px) !important;
+        height: calc(100vh - 40px) !important;
+        border-radius: 12px !important;
+    }
+    .contact-logo {
+        display: none !important;
+    }
+    
+    /* Center the contact info in the upper/middle part of the screen */
+    .contact-bottom-area {
+        position: absolute !important;
+        top: 30% !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 50px !important; /* Increased gap */
+        padding: 0 20px !important;
+    }
+    .contact-info-list {
+        align-items: center !important;
+        text-align: center !important;
+        gap: 20px !important; /* Increased gap */
+    }
+    .contact-socials {
+        justify-content: center !important;
+        width: 100% !important;
+        gap: 25px !important;
+    }
+    
+    /* Place the button below the info */
+    .contact-section .hero-tab-button {
+        position: absolute !important;
+        top: 78vh !important; /* Push slightly down */
+        bottom: auto !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 20 !important;
+    }
 }
