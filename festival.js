@@ -147,10 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    const isMobile = window.innerWidth <= 768;
+
     // 1. Shrink hero image to center and fade out the top overlay title
     galleryTl.to(".gallery-center", {
-        width: "35vw",
-        height: "80vh",
+        width: isMobile ? "86vw" : "35vw",
+        height: isMobile ? "24vh" : "80vh",
+        y: isMobile ? "-26vh" : "0",
         borderRadius: "20px",
         duration: 1,
         ease: "power2.inOut"
@@ -162,27 +165,40 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power2.inOut"
     }, 0);
 
-    // 2. Slide in left column from left
-    galleryTl.fromTo(".col-left", {
-        x: -300,
-        opacity: 0
-    }, {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out"
-    }, 0.5);
+    if (isMobile) {
+        // Mobile: slide in left column (containing 2 images) from below
+        galleryTl.fromTo(".col-left", {
+            y: "50vh", // Start offscreen from bottom
+            opacity: 0
+        }, {
+            y: "-12vh", // Shift up to sit exactly below the top image
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        }, 0.5);
+    } else {
+        // Desktop: Slide in left column from left
+        galleryTl.fromTo(".col-left", {
+            x: -300,
+            opacity: 0
+        }, {
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        }, 0.5);
 
-    // 3. Slide in right column from right
-    galleryTl.fromTo(".col-right", {
-        x: 300,
-        opacity: 0
-    }, {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out"
-    }, 0.5);
+        // Desktop: Slide in right column from right
+        galleryTl.fromTo(".col-right", {
+            x: 300,
+            opacity: 0
+        }, {
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        }, 0.5);
+    }
 
     // 4. Fade in CTA button
     galleryTl.to(".gallery-cta-wrapper", {

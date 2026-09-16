@@ -131,27 +131,104 @@ body, html {
 @media (max-width: 1024px) {
     .resident-single-hero {
         flex-direction: column;
+        height: 100dvh;
+        overflow: hidden;
     }
     
     .hero-left {
-        flex: 0 0 40%;
+        flex: 1; /* Take available space */
         max-width: 100%;
         justify-content: center;
         padding-left: 0;
-        padding-top: 120px;
-        align-items: flex-end;
+        padding-top: 150px; /* Pushed down by 50px */
+        padding-bottom: 250px; /* Leave space for image and socials */
+        align-items: flex-start; /* Push text to the top */
+        z-index: 5;
     }
     
     .hero-right {
-        flex: 0 0 60%;
-        max-width: 100%;
-        align-items: flex-start;
-        padding-top: 20px;
+        position: absolute;
+        bottom: 0; /* Align exactly to the bottom of the viewport */
+        left: 0;
+        width: 100%;
+        height: 75vh; /* Give it a tall fixed height from the bottom */
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 0;
+        z-index: 2;
+        pointer-events: none; /* Let clicks pass through */
     }
     
     .accent-circle {
         width: 70vw;
         height: 70vw;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Force ALL DJ images to be massive and anchored to the bottom */
+    .cutout-image {
+        width: 180vw !important; /* Almost twice as wide as the screen */
+        height: 100% !important; /* Take up the full 75vh */
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain !important;
+        object-position: bottom center !important;
+        /* Reset any CSS scales so width/height do the sizing */
+        transform: translateY(50px); 
+    }
+    
+    /* Specific overrides for Satellite84 (who uses scale-small) */
+    .cutout-image.scale-small {
+        width: 145vw !important; /* 20% smaller than 180vw */
+        height: 60vh !important; /* 20% smaller than 75vh */
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain !important;
+        object-position: bottom center !important;
+        position: relative !important;
+        left: 140px !important; /* Move right by 140px */
+        top: 50px !important; /* Move down by 50px */
+        transform: translateY(50px); 
+    }
+
+    /* Specific overrides for H9X (who uses scale-large) */
+    .cutout-image.scale-large {
+        width: 145vw !important; /* Only 20% smaller than 180vw */
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain !important;
+        object-position: bottom center !important;
+        position: relative !important;
+        left: 50px !important; /* Shift image 50px to the right */
+        transform: translateY(50px); 
+    }
+
+    /* Specific overrides for Miguel */
+    .cutout-image.miguel-img {
+        position: relative !important;
+        left: 120px !important; /* Move image 120px to the right */
+    }
+
+    /* Specific overrides for Alvkard */
+    .cutout-image.alvkard-img {
+        width: 100vw !important; /* Made it smaller again */
+        position: absolute !important;
+        left: auto !important;
+        right: calc(-20vw - 100px) !important; /* Push it right another 100px */
+        bottom: 0 !important;
+        object-position: bottom right !important;
+    }
+
+    .resident-socials {
+        bottom: 80px; /* Above the pagination dots (which are at 40px) */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        justify-content: center;
+        z-index: 50;
     }
 }
 
