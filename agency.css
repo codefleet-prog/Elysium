@@ -259,3 +259,316 @@
     80% { opacity: 1; }
     100% { transform: translateY(200%); opacity: 0; }
 }
+
+/* ============================================
+   RESIDENT DETAIL OVERLAY
+   ============================================ */
+.resident-detail-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: visibility 0s linear 0.5s;
+}
+
+.resident-detail-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+    visibility: visible;
+    transition: visibility 0s linear 0s;
+}
+
+.overlay-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 5, 5, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* Close Button */
+.overlay-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.overlay-close:hover {
+    background: var(--accent-red);
+    border-color: var(--accent-red);
+    transform: rotate(90deg);
+}
+
+/* Content Layout */
+.overlay-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    width: 90vw;
+    max-width: 1200px;
+    height: 75vh;
+    max-height: 700px;
+    gap: 60px;
+    align-items: center;
+}
+
+/* Image Side */
+.overlay-image-side {
+    flex: 0 0 45%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.overlay-dj-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.overlay-image-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to top, rgba(5, 5, 5, 0.7) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+/* Info Side */
+.overlay-info-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 40px;
+}
+
+.overlay-dj-name {
+    font-size: clamp(48px, 6vw, 90px);
+    font-weight: 900;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    line-height: 0.95;
+    margin: 0 0 15px 0;
+}
+
+.overlay-red-line {
+    width: 60px;
+    height: 4px;
+    background: var(--accent-red);
+    box-shadow: 0 0 12px var(--accent-red);
+    margin-bottom: 20px;
+}
+
+.overlay-dj-highlight {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent-red);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 25px 0;
+}
+
+.overlay-dj-description {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 500px;
+}
+
+.overlay-dj-description p {
+    margin: 0 0 15px 0;
+}
+
+.overlay-dj-description p:last-child {
+    margin-bottom: 0;
+}
+
+/* Overlay Social Links */
+.overlay-dj-socials {
+    display: flex;
+    gap: 20px;
+    margin-top: 35px;
+}
+
+.overlay-dj-socials a {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    padding: 8px 0;
+    position: relative;
+}
+
+.overlay-dj-socials a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-red);
+    transition: width 0.3s ease;
+}
+
+.overlay-dj-socials a:hover {
+    opacity: 1;
+    color: var(--accent-red);
+}
+
+.overlay-dj-socials a:hover::after {
+    width: 100%;
+}
+
+/* Navigation Arrows */
+.overlay-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.overlay-nav-prev { left: 25px; }
+.overlay-nav-next { right: 25px; }
+
+.overlay-nav:hover {
+    background: var(--accent-red);
+    border-color: var(--accent-red);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.overlay-nav svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Pagination Dots */
+.overlay-pagination {
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 14px;
+    z-index: 10;
+}
+
+.overlay-pagination .overlay-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.overlay-pagination .overlay-dot:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.overlay-pagination .overlay-dot.active {
+    background: var(--accent-red);
+    box-shadow: 0 0 10px var(--accent-red);
+    transform: scale(1.3);
+}
+
+/* Lock body scroll when overlay is open */
+body.overlay-open {
+    overflow: hidden;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+    .overlay-content {
+        flex-direction: column;
+        height: auto;
+        max-height: 85vh;
+        gap: 30px;
+        overflow-y: auto;
+        padding: 80px 0 80px 0;
+    }
+
+    .overlay-image-side {
+        flex: none;
+        width: 100%;
+        height: 35vh;
+        min-height: 250px;
+        border-radius: 4px;
+    }
+
+    .overlay-info-side {
+        padding: 0 10px;
+        text-align: center;
+        align-items: center;
+    }
+
+    .overlay-dj-name {
+        font-size: clamp(36px, 10vw, 60px);
+    }
+
+    .overlay-dj-description {
+        max-width: 100%;
+    }
+
+    .overlay-dj-socials {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .overlay-red-line {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .overlay-nav-prev { left: 10px; }
+    .overlay-nav-next { right: 10px; }
+
+    .overlay-close {
+        top: 15px;
+        right: 15px;
+        width: 44px;
+        height: 44px;
+    }
+}

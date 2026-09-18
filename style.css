@@ -811,7 +811,7 @@ body.menu-open .fullscreen-menu {
 .about-title {
     font-size: 80px;
     font-weight: 800;
-    margin-bottom: 80px;
+    margin-bottom: 50px;
     text-transform: uppercase;
     color: var(--text-main);
     letter-spacing: 4px;
@@ -831,7 +831,7 @@ body.menu-open .fullscreen-menu {
 .about-rows {
     position: relative;
     width: 100%;
-    min-height: 550px; /* Fixed height for absolute children */
+    min-height: 620px; /* Increased to comfortably fit text without top or bottom clipping */
     overflow: hidden; /* Prevents horizontal scrollbar when sliding left */
 }
 
@@ -857,13 +857,22 @@ body.menu-open .fullscreen-menu {
 
 .about-text {
     flex: 1;
-    font-size: 18px;
-    line-height: 1.8;
+    font-size: 17px;
+    line-height: 1.7;
     color: rgba(255, 255, 255, 0.75);
 }
 
 .about-text p {
-    margin-bottom: 30px;
+    margin-bottom: 22px;
+}
+
+.two-column-text {
+    display: flex;
+    gap: 40px;
+    text-align: left;
+}
+.two-column-text > div {
+    flex: 1;
 }
 
 .about-image-wrapper {
@@ -1132,6 +1141,10 @@ body.menu-open .fullscreen-menu {
     .about-row, .about-row.reverse {
         flex-direction: column;
         gap: 40px;
+    }
+    .two-column-text {
+        flex-direction: column;
+        gap: 20px;
     }
     .about-image-wrapper {
         width: 100%;

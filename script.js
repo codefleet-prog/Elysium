@@ -100,8 +100,21 @@ document.addEventListener("DOMContentLoaded", () => {
         originalRows.forEach(row => {
             const textContent = row.querySelector('.about-text');
             const imageContent = row.querySelector('.about-image-wrapper');
+            const twoCol = row.querySelector('.two-column-text');
             
-            if (textContent) {
+            if (twoCol) {
+                // Split the two-column slide into two separate slides on mobile
+                const colDivs = Array.from(twoCol.children);
+                colDivs.forEach(col => {
+                    const textRow = document.createElement('div');
+                    textRow.className = 'about-row';
+                    const colText = document.createElement('div');
+                    colText.className = 'about-text text-left';
+                    Array.from(col.children).forEach(p => colText.appendChild(p));
+                    textRow.appendChild(colText);
+                    aboutRowsContainer.insertBefore(textRow, row);
+                });
+            } else if (textContent) {
                 const textRow = document.createElement('div');
                 textRow.className = 'about-row';
                 textRow.appendChild(textContent);

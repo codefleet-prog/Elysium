@@ -186,4 +186,211 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener('click', closeMenu);
     });
 
+    // ==========================================
+    // 6. RESIDENT DETAIL OVERLAY
+    // ==========================================
+    const residentsData = [
+        {
+            name: "ALVKARD",
+            highlight: "SCHRANZ ARTIST & PRODUCER",
+            image: "assets/New-Alvkard.jpg",
+            imagePosition: "center center",
+            description: [
+                "ALVKARD schranz előadó és producer, az Elysium egyik karakteres rezidense. Hangzását a gyors tempó, a súlyos groove-ok és a direkt, energikus schranz világ határozza meg.",
+                "Producerként saját zenékkel is folyamatosan építi a projektjét, miközben az elmúlt időszakban számos fellépést tudhat maga mögött Magyarországon és külföldön, több meghatározó klub és esemény színpadán."
+            ],
+            socials: [
+                { name: "Facebook", url: "https://www.facebook.com/alvkard.techno" },
+                { name: "Instagram", url: "https://www.instagram.com/alvkard_?igsh=MW5lNWJqNGFqbmFxeQ%3D%3D" },
+                { name: "SoundCloud", url: "https://soundcloud.com/alvkard" }
+            ]
+        },
+        {
+            name: "H9X",
+            highlight: "GROOVY INDUSTRIAL WITH A TWIST",
+            image: "assets/H9X.jpg",
+            imagePosition: "center center",
+            description: [
+                "H9X az Elysium egyik legegyedibb karakterű rezidense, akinek hangzásában a groove-os industrial alapok bolondosabb, váratlan és játékos dallamokkal találkoznak.",
+                "Szettjeiben a súly és az energia mellett mindig jelen van egy kis kiszámíthatatlanság is, ami külön karaktert ad a produkcióinak. Az elmúlt időszakban több hazai és külföldi fellépésen is megmutatta ezt a hangzást, rangos klubokban és underground eseményeken egyaránt."
+            ],
+            socials: [
+                { name: "Facebook", url: "https://www.facebook.com/profile.php?id=61558412468177" },
+                { name: "Instagram", url: "https://www.instagram.com/harkaly_9x?igsh=YWZpaWdrdjFxbjJs" },
+                { name: "TikTok", url: "https://www.tiktok.com/@harkaly_9x?_r=1&_t=ZN-98olUzL5EDm" },
+                { name: "SoundCloud", url: "https://soundcloud.com/levente-harkaly" }
+            ]
+        },
+        {
+            name: "MIGUEL",
+            highlight: "BOCHKA / INDUSTRIAL ENERGY FROM THE UNDERGROUND",
+            image: "assets/MIGUEL.jpg",
+            imagePosition: "center center",
+            description: [
+                "Miguel az Elysium egyik meghatározó rezidense, producerként pedig több megjelenéssel is építi saját hangzását.",
+                "Szettjeiben a bochka és az industrial keménysége találkozik a sötétebb, nyersebb energiákkal, és folyamatos feszültséggel. Az elmúlt időszakban számos alkalommal lépett fel Magyarországon és külföldön is, több rangos klubban és underground eseményen."
+            ],
+            socials: [
+                { name: "Facebook", url: "https://www.facebook.com/migulhardtechno" },
+                { name: "Instagram", url: "https://www.instagram.com/miguelnoredflag" },
+                { name: "TikTok", url: "https://www.tiktok.com/@miguelnoredflag" },
+                { name: "SoundCloud", url: "https://soundcloud.com/miguelnoredflag" }
+            ]
+        },
+        {
+            name: "SATELLITE84",
+            highlight: "PROPER / GROOVE TECHNO DUO",
+            image: "assets/New-Sattelite.jpg",
+            imagePosition: "center top",
+            description: [
+                "A SATELLITE84 egy magyar proper/groove techno formáció, amelyet SPI3GEL és Franzis Mate alapított 2023-ban. A páros kezdetben online rádióműsorban mutatkozott be, majd Elysium rezidensként egyre több pécsi és budapesti helyszínen lépett fel, köztük az A38 Hajón és az Arzenálban is.",
+                "Szettjeik középpontjában a groove-központú építkezés, a feszes ritmusok és a proper techno tudatosan felépített flow-ja áll. Az elmúlt években számos hazai és külföldi fellépésen bizonyítottak, Magyarország meghatározó klubjai és nemzetközi underground események színpadain egyaránt."
+            ],
+            socials: [
+                { name: "Facebook", url: "https://www.facebook.com/profile.php?id=100063469275063" },
+                { name: "YouTube", url: "https://www.youtube.com/@Satellitemusic84" },
+                { name: "Instagram", url: "https://www.instagram.com/satellite84_official" },
+                { name: "SoundCloud", url: "https://soundcloud.com/SATELLITE84" }
+            ]
+        }
+    ];
+
+    const overlay = document.getElementById('resident-overlay');
+    const overlayImage = document.getElementById('overlay-dj-image');
+    const overlayName = document.getElementById('overlay-dj-name');
+    const overlayHighlight = document.getElementById('overlay-dj-highlight');
+    const overlayDescription = document.getElementById('overlay-dj-description');
+    const overlaySocials = document.getElementById('overlay-dj-socials');
+    const overlayPagination = document.getElementById('overlay-pagination');
+    let currentResidentIndex = 0;
+
+    // Build pagination dots
+    residentsData.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'overlay-dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => navigateToResident(i));
+        overlayPagination.appendChild(dot);
+    });
+
+    function loadResident(index, direction) {
+        const data = residentsData[index];
+        currentResidentIndex = index;
+
+        // Update content
+        overlayImage.src = data.image;
+        overlayImage.alt = data.name;
+        overlayImage.style.objectPosition = data.imagePosition;
+        overlayName.textContent = data.name;
+        overlayHighlight.textContent = data.highlight;
+        overlayDescription.innerHTML = data.description.map(p => `<p>${p}</p>`).join('');
+        overlaySocials.innerHTML = data.socials.map(s =>
+            `<a href="${s.url}" target="_blank">${s.name}</a>`
+        ).join('');
+
+        // Update pagination dots
+        overlayPagination.querySelectorAll('.overlay-dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+    }
+
+    function openOverlay(index) {
+        loadResident(index, 0);
+        overlay.classList.add('active');
+        document.body.classList.add('overlay-open');
+
+        // Reset any leftover opacity from previous close animation
+        gsap.set('.overlay-content, .overlay-close, .overlay-nav, .overlay-pagination', { opacity: 1 });
+        gsap.set('.overlay-image-side, .overlay-info-side', { x: 0, opacity: 1 });
+
+        // GSAP entrance animation
+        const tl = gsap.timeline();
+        tl.fromTo('.overlay-backdrop', { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' }, 0);
+        tl.fromTo('.overlay-image-side', { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 0.15);
+        tl.fromTo('.overlay-dj-name', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 0.3);
+        tl.fromTo('.overlay-red-line', { scaleX: 0, transformOrigin: 'left center' }, { scaleX: 1, duration: 0.4, ease: 'power2.out' }, 0.4);
+        tl.fromTo('.overlay-dj-highlight', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }, 0.45);
+        tl.fromTo('.overlay-dj-description', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }, 0.5);
+        tl.fromTo('.overlay-dj-socials', { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }, 0.55);
+        tl.fromTo('.overlay-close', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(2)' }, 0.3);
+        tl.fromTo('.overlay-nav', { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.5);
+        tl.fromTo('.overlay-pagination', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, 0.6);
+    }
+
+    function closeOverlay() {
+        const tl = gsap.timeline({
+            onComplete: () => {
+                overlay.classList.remove('active');
+                document.body.classList.remove('overlay-open');
+            }
+        });
+        tl.to('.overlay-content, .overlay-close, .overlay-nav, .overlay-pagination', { opacity: 0, duration: 0.25, ease: 'power2.in' }, 0);
+        tl.to('.overlay-backdrop', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 0.1);
+    }
+
+    function navigateToResident(index) {
+        if (index === currentResidentIndex) return;
+        const direction = index > currentResidentIndex ? 1 : -1;
+
+        // Quick fade out content, swap, fade back in
+        const contentTl = gsap.timeline();
+        contentTl.to('.overlay-image-side, .overlay-info-side', {
+            opacity: 0,
+            x: direction * -30,
+            duration: 0.2,
+            ease: 'power2.in',
+            onComplete: () => {
+                loadResident(index, direction);
+                gsap.set('.overlay-image-side, .overlay-info-side', { x: direction * 30 });
+                gsap.to('.overlay-image-side, .overlay-info-side', {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.35,
+                    ease: 'power2.out'
+                });
+            }
+        });
+    }
+
+    // Card click handlers
+    document.querySelectorAll('.resident-card[data-resident-index]').forEach(card => {
+        card.addEventListener('click', (e) => {
+            // Don't open overlay if clicking on social links
+            if (e.target.closest('.resident-card-socials a')) return;
+            const index = parseInt(card.dataset.residentIndex);
+            openOverlay(index);
+        });
+    });
+
+    // Close button
+    document.querySelector('.overlay-close').addEventListener('click', closeOverlay);
+
+    // Backdrop click
+    document.querySelector('.overlay-backdrop').addEventListener('click', closeOverlay);
+
+    // Navigation arrows
+    document.querySelector('.overlay-nav-prev').addEventListener('click', () => {
+        const prev = (currentResidentIndex - 1 + residentsData.length) % residentsData.length;
+        navigateToResident(prev);
+    });
+
+    document.querySelector('.overlay-nav-next').addEventListener('click', () => {
+        const next = (currentResidentIndex + 1) % residentsData.length;
+        navigateToResident(next);
+    });
+
+    // ESC key to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('active')) {
+            closeOverlay();
+        }
+        if (e.key === 'ArrowLeft' && overlay.classList.contains('active')) {
+            const prev = (currentResidentIndex - 1 + residentsData.length) % residentsData.length;
+            navigateToResident(prev);
+        }
+        if (e.key === 'ArrowRight' && overlay.classList.contains('active')) {
+            const next = (currentResidentIndex + 1) % residentsData.length;
+            navigateToResident(next);
+        }
+    });
+
 });
