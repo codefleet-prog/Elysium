@@ -195,10 +195,16 @@ document.addEventListener("DOMContentLoaded", () => {
             highlight: "SCHRANZ ARTIST & PRODUCER",
             image: "assets/New-Alvkard.jpg",
             imagePosition: "center center",
-            description: [
-                "ALVKARD schranz előadó és producer, az Elysium egyik karakteres rezidense. Hangzását a gyors tempó, a súlyos groove-ok és a direkt, energikus schranz világ határozza meg.",
-                "Producerként saját zenékkel is folyamatosan építi a projektjét, miközben az elmúlt időszakban számos fellépést tudhat maga mögött Magyarországon és külföldön, több meghatározó klub és esemény színpadán."
-            ],
+            description: {
+                hu: [
+                    "ALVKARD schranz előadó és producer, az Elysium egyik karakteres rezidense. Hangzását a gyors tempó, a súlyos groove-ok és a direkt, energikus schranz világ határozza meg.",
+                    "Producerként saját zenékkel is folyamatosan építi a projektjét, miközben az elmúlt időszakban számos fellépést tudhat maga mögött Magyarországon és külföldön, több meghatározó klub és esemény színpadán."
+                ],
+                en: [
+                    "ALVKARD is a schranz artist and producer, and one of Elysium's defining residents. His signature sound is driven by relentless tempos, heavy grooves, and an intense, direct schranz aesthetic.",
+                    "As a producer, he consistently develops his sonic identity with original releases, having performed across prominent club stages and underground gatherings both in Hungary and abroad."
+                ]
+            },
             socials: [
                 { name: "Facebook", url: "https://www.facebook.com/alvkard.techno" },
                 { name: "Instagram", url: "https://www.instagram.com/alvkard_?igsh=MW5lNWJqNGFqbmFxeQ%3D%3D" },
@@ -210,10 +216,16 @@ document.addEventListener("DOMContentLoaded", () => {
             highlight: "GROOVY INDUSTRIAL WITH A TWIST",
             image: "assets/H9X.jpg",
             imagePosition: "center center",
-            description: [
-                "H9X az Elysium egyik legegyedibb karakterű rezidense, akinek hangzásában a groove-os industrial alapok bolondosabb, váratlan és játékos dallamokkal találkoznak.",
-                "Szettjeiben a súly és az energia mellett mindig jelen van egy kis kiszámíthatatlanság is, ami külön karaktert ad a produkcióinak. Az elmúlt időszakban több hazai és külföldi fellépésen is megmutatta ezt a hangzást, rangos klubokban és underground eseményeken egyaránt."
-            ],
+            description: {
+                hu: [
+                    "H9X az Elysium egyik legegyedibb karakterű rezidense, akinek hangzásában a groove-os industrial alapok bolondosabb, váratlan és játékos dallamokkal találkoznak.",
+                    "Szettjeiben a súly és az energia mellett mindig jelen van egy kis kiszámíthatatlanság is, ami külön karaktert ad a produkcióinak. Az elmúlt időszakban több hazai és külföldi fellépésen is megmutatta ezt a hangzást, rangos klubokban és underground eseményeken egyaránt."
+                ],
+                en: [
+                    "H9X is one of Elysium's most distinct residents, fusing driving industrial foundations with eccentric, unpredictable, and playful melodic hooks.",
+                    "His sets balance raw weight and intense drive with a touch of unpredictability, lending a sharp, idiosyncratic character to his performances across leading clubs and underground circuits at home and internationally."
+                ]
+            },
             socials: [
                 { name: "Facebook", url: "https://www.facebook.com/profile.php?id=61558412468177" },
                 { name: "Instagram", url: "https://www.instagram.com/harkaly_9x?igsh=YWZpaWdrdjFxbjJs" },
@@ -226,10 +238,16 @@ document.addEventListener("DOMContentLoaded", () => {
             highlight: "BOCHKA / INDUSTRIAL ENERGY FROM THE UNDERGROUND",
             image: "assets/MIGUEL.jpg",
             imagePosition: "center center",
-            description: [
-                "Miguel az Elysium egyik meghatározó rezidense, producerként pedig több megjelenéssel is építi saját hangzását.",
-                "Szettjeiben a bochka és az industrial keménysége találkozik a sötétebb, nyersebb energiákkal, és folyamatos feszültséggel. Az elmúlt időszakban számos alkalommal lépett fel Magyarországon és külföldön is, több rangos klubban és underground eseményen."
-            ],
+            description: {
+                hu: [
+                    "Miguel az Elysium egyik meghatározó rezidense, producerként pedig több megjelenéssel is építi saját hangzását.",
+                    "Szettjeiben a bochka és az industrial keménysége találkozik a sötétebb, nyersebb energiákkal, és folyamatos feszültséggel. Az elmúlt időszakban számos alkalommal lépett fel Magyarországon és külföldön is, több rangos klubban és underground eseményen."
+                ],
+                en: [
+                    "Miguel is a core resident of Elysium, actively carving out his sonic identity as a producer with multiple releases.",
+                    "His performances channel the raw force of bochka and industrial weight, converging into dark, gritty energy and continuous tension on dancefloors across Hungary and beyond."
+                ]
+            },
             socials: [
                 { name: "Facebook", url: "https://www.facebook.com/migulhardtechno" },
                 { name: "Instagram", url: "https://www.instagram.com/miguelnoredflag" },
@@ -242,10 +260,16 @@ document.addEventListener("DOMContentLoaded", () => {
             highlight: "PROPER / GROOVE TECHNO DUO",
             image: "assets/New-Sattelite.jpg",
             imagePosition: "center top",
-            description: [
-                "A SATELLITE84 egy magyar proper/groove techno formáció, amelyet SPI3GEL és Franzis Mate alapított 2023-ban. A páros kezdetben online rádióműsorban mutatkozott be, majd Elysium rezidensként egyre több pécsi és budapesti helyszínen lépett fel, köztük az A38 Hajón és az Arzenálban is.",
-                "Szettjeik középpontjában a groove-központú építkezés, a feszes ritmusok és a proper techno tudatosan felépített flow-ja áll. Az elmúlt években számos hazai és külföldi fellépésen bizonyítottak, Magyarország meghatározó klubjai és nemzetközi underground események színpadain egyaránt."
-            ],
+            description: {
+                hu: [
+                    "A SATELLITE84 egy magyar proper/groove techno formáció, amelyet SPI3GEL és Franzis Mate alapított 2023-ban. A páros kezdetben online rádióműsorban mutatkozott be, majd Elysium rezidensként egyre több pécsi és budapesti helyszínen lépett fel, köztük az A38 Hajón és az Arzenálban is.",
+                    "Szettjeik középpontjában a groove-központú építkezés, a feszes ritmusok és a proper techno tudatosan felépített flow-ja áll. Az elmúlt években számos hazai és külföldi fellépésen bizonyítottak, Magyarország meghatározó klubjai és nemzetközi underground események színpadain egyaránt."
+                ],
+                en: [
+                    "SATELLITE84 is a Hungarian proper/groove techno project founded in 2023 by SPI3GEL and Franzis Mate. Debuting on online radio before joining Elysium as residents, the duo has played key venues across Pécs and Budapest, including A38 and Arzenál.",
+                    "Their sound centers on groove-driven architecture, taut rhythms, and the calculated flow of proper techno, honed through appearances at premier clubs and underground gatherings across the country and abroad."
+                ]
+            },
             socials: [
                 { name: "Facebook", url: "https://www.facebook.com/profile.php?id=100063469275063" },
                 { name: "YouTube", url: "https://www.youtube.com/@Satellitemusic84" },
@@ -276,13 +300,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = residentsData[index];
         currentResidentIndex = index;
 
+        // Determine active language
+        const currentLang = (window.ElysiumLang && window.ElysiumLang.getLanguage) ? window.ElysiumLang.getLanguage() : 'hu';
+        const descArray = Array.isArray(data.description) 
+            ? data.description 
+            : (data.description[currentLang] || data.description.hu);
+
         // Update content
         overlayImage.src = data.image;
         overlayImage.alt = data.name;
         overlayImage.style.objectPosition = data.imagePosition;
         overlayName.textContent = data.name;
         overlayHighlight.textContent = data.highlight;
-        overlayDescription.innerHTML = data.description.map(p => `<p>${p}</p>`).join('');
+        overlayDescription.innerHTML = descArray.map(p => `<p>${p}</p>`).join('');
         overlaySocials.innerHTML = data.socials.map(s =>
             `<a href="${s.url}" target="_blank">${s.name}</a>`
         ).join('');
@@ -292,6 +322,13 @@ document.addEventListener("DOMContentLoaded", () => {
             dot.classList.toggle('active', i === index);
         });
     }
+
+    // Re-render overlay if language changes while open
+    window.addEventListener('elysium:langchange', () => {
+        if (overlay && overlay.classList.contains('active')) {
+            loadResident(currentResidentIndex, 0);
+        }
+    });
 
     function openOverlay(index) {
         loadResident(index, 0);

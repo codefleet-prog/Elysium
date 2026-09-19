@@ -73,7 +73,7 @@
         <!-- The Button in the bottom notch -->
         <div class="hero-tab-button">
             <a href="#rezidensek" class="scroll-down-indicator" style="text-decoration: none;">
-                <span class="scroll-text">GÖRGESS LE A REZIDENSEKHEZ</span>
+                <span class="scroll-text" data-i18n="hero_scroll_residents">GÖRGESS LE A REZIDENSEKHEZ</span>
                 <div class="scroll-line-container">
                     <div class="scroll-line-animated"></div>
                 </div>
@@ -87,24 +87,24 @@
                     <div class="qr-dots"></div>
                 </div>
                 <div class="price-info">
-                    <p>AZ ELYSIUM HANGZÁSA</p>
+                    <p data-i18n="hero_sound_of_elysium">AZ ELYSIUM HANGZÁSA</p>
                 </div>
             </div>
             
             <a href="contact.html" class="scroll-section" style="text-decoration: none; color: inherit;">
-                <p>UGRÁS A<br>KAPCSOLATHOZ</p>
-                <div class="small-preview" style="background-image: url('assets/Galeria3.jpg'); background-position: top center;"></div>
+                <p data-i18n="hero_go_contact">UGRÁS A<br>KAPCSOLATHOZ</p>
+                <div class="small-preview" style="background-image: url('assets/Contact.JPEG'); background-position: top center;"></div>
             </a>
         </div>
     </section>
 
     <header class="navbar">
         <nav class="nav-links">
-            <a href="index.html"><span>KEZDŐLAP</span></a>
-            <a href="#"><span>AGENCY</span></a>
-            <a href="festival.html"><span>FESZTIVÁL</span></a>
-            <a href="index.html#esemenyek"><span>ESEMÉNYEK</span></a>
-            <a href="contact.html"><span>KAPCSOLAT</span></a>
+            <a href="index.html"><span data-i18n="nav_home">KEZDŐLAP</span></a>
+            <a href="#"><span data-i18n="nav_agency">AGENCY</span></a>
+            <a href="festival.html"><span data-i18n="nav_festival">FESZTIVÁL</span></a>
+            <a href="index.html#esemenyek"><span data-i18n="nav_events">ESEMÉNYEK</span></a>
+            <a href="contact.html"><span data-i18n="nav_contact">KAPCSOLAT</span></a>
         </nav>
     </header>
 
@@ -112,7 +112,7 @@
     <!-- Resident DJs Section (revealed after glitch dissolve) -->
     <section class="resident-section" id="rezidensek">
         <div class="resident-container">
-            <h2 class="resident-title">REZIDENSEINK</h2>
+            <h2 class="resident-title" data-i18n="residents_title">REZIDENSEINK</h2>
                         <div class="resident-grid">
                 <!-- Resident 1: ALVKARD -->
                 <div class="resident-card" data-resident-index="0">
@@ -230,16 +230,24 @@
 
     <!-- Fullscreen Hamburger Menu Overlay -->
     <div class="fullscreen-menu">
-        <nav class="menu-nav-links">
-            <a href="index.html">KEZDŐLAP</a>
-            <a href="agency.html">AGENCY</a>
-            <a href="festival.html">FESZTIVÁL</a>
-            <a href="index.html#esemenyek">ESEMÉNYEK</a>
-            <a href="contact.html">KAPCSOLAT</a>
-        </nav>
+        <div class="menu-content-wrapper">
+            <nav class="menu-nav-links">
+                <a href="index.html"><span data-i18n="nav_home">KEZDŐLAP</span></a>
+                <a href="agency.html"><span data-i18n="nav_agency">AGENCY</span></a>
+                <a href="festival.html"><span data-i18n="nav_festival">FESZTIVÁL</span></a>
+                <a href="index.html#esemenyek"><span data-i18n="nav_events">ESEMÉNYEK</span></a>
+                <a href="contact.html"><span data-i18n="nav_contact">KAPCSOLAT</span></a>
+            </nav>
+            <div class="menu-lang-switch">
+                <button type="button" class="lang-btn active" data-lang="hu">HU</button>
+                <span class="lang-divider">/</span>
+                <button type="button" class="lang-btn" data-lang="en">EN</button>
+            </div>
+        </div>
     </div>
 
-    <!-- GSAP Scripts -->
+    <!-- Scripts -->
+    <script src="lang.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="agency.js"></script>

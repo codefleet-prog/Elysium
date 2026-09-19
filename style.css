@@ -241,12 +241,14 @@ body:not(.menu-open):not(.menu-closing) .fp-cross {
     backdrop-filter: blur(10px);
     z-index: 2005;
     display: flex;
-    justify-content: flex-start; /* Left align for a more editorial look */
-    align-items: center;
+    flex-direction: column;
+    justify-content: center; /* Vertically center the entire menu block */
+    align-items: flex-start; /* Left align for a more editorial look */
     padding-left: 12vw;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
+    overflow-y: auto;
 }
 
 body.menu-open .fullscreen-menu {
@@ -301,6 +303,78 @@ body.menu-open .fullscreen-menu {
 
 .menu-nav-links a:hover::before {
     width: 25px;
+}
+
+/* Language Switcher in Fullscreen Menu - placed directly below menu items */
+.menu-lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.35s;
+}
+
+body.menu-open .menu-lang-switch {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.3);
+    padding: 6px 10px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.lang-btn:hover {
+    color: #ffffff;
+}
+
+.lang-btn.active {
+    color: #ffffff;
+}
+
+.lang-btn.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    right: 10px;
+    height: 2px;
+    background-color: var(--accent-red);
+    box-shadow: 0 0 8px var(--accent-red);
+}
+
+.lang-divider {
+    color: rgba(255, 255, 255, 0.2);
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    user-select: none;
+}
+
+@media (max-width: 768px) {
+    .menu-lang-switch {
+        margin-top: 25px;
+        padding-top: 15px;
+    }
+    .lang-btn {
+        font-size: 16px;
+        padding: 6px 8px;
+    }
 }
 
 /* Hero Section Wrapper */

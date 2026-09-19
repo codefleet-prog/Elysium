@@ -155,6 +155,53 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
+    // 5b. WORK POSITION CONDITIONAL FIELDS
+    // ==========================================
+    const workPosSelect = document.getElementById('work-position');
+    const workSocialFields = document.getElementById('work-social-fields');
+    const workFileFields = document.getElementById('work-file-fields');
+    const workFacebookInput = document.getElementById('work-facebook');
+    const workInstagramInput = document.getElementById('work-instagram');
+
+    function updateWorkFields() {
+        if (!workPosSelect) return;
+        const val = workPosSelect.value;
+        if (val === 'promoter') {
+            if (workSocialFields) workSocialFields.style.display = 'block';
+            if (workFileFields) workFileFields.style.display = 'none';
+            if (workFacebookInput) workFacebookInput.setAttribute('required', 'required');
+            if (workInstagramInput) workInstagramInput.setAttribute('required', 'required');
+        } else if (val === 'artist-care' || val === 'asszisztens') {
+            if (workSocialFields) workSocialFields.style.display = 'none';
+            if (workFileFields) workFileFields.style.display = 'block';
+            if (workFacebookInput) {
+                workFacebookInput.removeAttribute('required');
+                workFacebookInput.style.borderColor = '';
+            }
+            if (workInstagramInput) {
+                workInstagramInput.removeAttribute('required');
+                workInstagramInput.style.borderColor = '';
+            }
+        } else {
+            if (workSocialFields) workSocialFields.style.display = 'none';
+            if (workFileFields) workFileFields.style.display = 'none';
+            if (workFacebookInput) {
+                workFacebookInput.removeAttribute('required');
+                workFacebookInput.style.borderColor = '';
+            }
+            if (workInstagramInput) {
+                workInstagramInput.removeAttribute('required');
+                workInstagramInput.style.borderColor = '';
+            }
+        }
+        ScrollTrigger.refresh();
+    }
+
+    if (workPosSelect) {
+        workPosSelect.addEventListener('change', updateWorkFields);
+    }
+
+    // ==========================================
     // 6. FILE UPLOAD HANDLING
     // ==========================================
     const fileInputs = document.querySelectorAll('.file-input');
@@ -241,6 +288,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const targetForm = document.getElementById(`form-${activeTab.dataset.tab}`);
                 targetForm.classList.add('active');
                 targetForm.reset();
+                if (targetForm.id === 'form-work') {
+                    updateWorkFields();
+                }
             }, 4000);
         });
     });
