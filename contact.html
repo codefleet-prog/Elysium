@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAPCSOLAT - ELYSIUM</title>
+    <link rel="stylesheet" href="contact.css?v=1">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Marquees that fade in during glitch (Moved outside pinned section for Safari fix) -->
+    <div class="marquee-container">
+        <!-- Atmospheric Red Lightings -->
+        <div class="red-glow glow-1"></div>
+        <div class="red-glow glow-2"></div>
+        <div class="red-glow glow-3"></div>
+
+        <div class="marquee marquee-bold"><span>ELYSIUM CONTACT ELYSIUM CONTACT ELYSIUM CONTACT ELYSIUM CONTACT </span></div>
+        <div class="marquee marquee-red"><span>GET IN TOUCH GET IN TOUCH GET IN TOUCH GET IN TOUCH </span></div>
+    </div>
+
+    <!-- Futuristic Reveal Loader -->
+    <div class="loader-overlay">
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+        <div class="loader-block"></div>
+    </div>
+
+    <!-- The New Fixed Top Header -->
+    <header id="fixed-header">
+        <a href="index.html">
+            <img src="assets/logo.png" alt="ELYSIUM Logo" class="logo-img">
+        </a>
+        <div class="hamburger-btn" id="fingerprint-btn" aria-label="Open menu">
+            <img class="fp-image" src="assets/logo-finger.png" alt="">
+            <svg class="fp-cross-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="fp-cross fp-cross-1"
+                    d="M 22,22 L 78,78"
+                    stroke="white" stroke-width="10" stroke-linecap="round" fill="none"/>
+                <path class="fp-cross fp-cross-2"
+                    d="M 78,22 L 22,78"
+                    stroke="white" stroke-width="10" stroke-linecap="round" fill="none"/>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-bg-layer" style="pointer-events: none;">
+                <img src="assets/Galeria3.jpg" alt="Elysium Contact" class="hero-bg-img">
+                
+                <!-- Glitch overlay container — JS fills this with 12 slices -->
+                <div class="glitch-overlay" id="glitch-overlay"></div>
+            </div>
+
+            <!-- The logo that will slide up when glitch dissolves -->
+            <img src="assets/full-logo.png" alt="Elysium Full Logo" class="centered-logo">
+
+            <main class="hero-content">
+                <div class="hero-text-wrapper">
+                </div>
+            </main>
+        </div>
+
+        <!-- The Button in the bottom notch -->
+        <div class="hero-tab-button">
+            <a href="#contact-section" class="scroll-down-indicator" style="text-decoration: none;">
+                <span class="scroll-text">GÖRGESS LE AZ ŰRLAPHOZ</span>
+                <div class="scroll-line-container">
+                    <div class="scroll-line-animated"></div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Bottom info in the black area -->
+        <div class="bottom-bar">
+            <div class="qr-section">
+                <div class="qr-placeholder">
+                    <div class="qr-dots"></div>
+                </div>
+                <div class="price-info">
+                    <p>KAPCSOLATFELVÉTEL</p>
+                </div>
+            </div>
+            
+            <a href="index.html" class="scroll-section" style="text-decoration: none; color: inherit;">
+                <p>VISSZA A<br>KEZDŐLAPRA</p>
+                <div class="small-preview" style="background-image: url('assets/hero_rave.jpg'); background-position: top center;"></div>
+            </a>
+        </div>
+    </section>
+
+    <header class="navbar">
+        <nav class="nav-links">
+            <a href="index.html"><span>KEZDŐLAP</span></a>
+            <a href="agency.html"><span>AGENCY</span></a>
+            <a href="festival.html"><span>FESZTIVÁL</span></a>
+            <a href="index.html#esemenyek"><span>ESEMÉNYEK</span></a>
+            <a href="contact.html"><span>KAPCSOLAT</span></a>
+        </nav>
+    </header>
+
+    <!-- Contact Form Section -->
+    <section class="contact-section" id="contact-section">
+        <!-- Background atmosphere -->
+        <div class="contact-bg-image">
+            <img src="assets/Galeria3.jpg" alt="">
+            <div class="contact-bg-overlay"></div>
+        </div>
+
+        <div class="contact-layout">
+            <!-- Left: Atmospheric side -->
+            <div class="contact-side-info">
+                <h2 class="contact-title">KAPCSOLAT</h2>
+                <p class="contact-subtitle">Írj nekünk, ha szponzorálnál, fellépnél, vagy a csapatunkhoz csatlakoznál.</p>
+                <div class="contact-side-details">
+                    <div class="contact-detail-item">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        <span>info@elysium.hu</span>
+                    </div>
+                    <div class="contact-detail-item">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        <span>@elysium_official</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Form card -->
+            <div class="contact-form-card">
+                <!-- Tab Switcher -->
+                <div class="contact-tabs">
+                    <button class="contact-tab active" data-tab="sponsor">
+                        <span class="tab-icon">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                        </span>
+                        SZPONZOR
+                    </button>
+                    <button class="contact-tab" data-tab="dj">
+                        <span class="tab-icon">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/></svg>
+                        </span>
+                        ELŐADÓ / DJ
+                    </button>
+                    <button class="contact-tab" data-tab="work">
+                        <span class="tab-icon">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                        </span>
+                        MUNKA
+                    </button>
+                </div>
+
+                <!-- ===================== FORM 1: SZPONZOR ===================== -->
+                <form class="contact-form active" id="form-sponsor" novalidate>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="sponsor-name">Név *</label>
+                            <input type="text" id="sponsor-name" name="name" required placeholder="Teljes neved">
+                        </div>
+                        <div class="form-group">
+                            <label for="sponsor-company">Cégnév</label>
+                            <input type="text" id="sponsor-company" name="company" placeholder="Céged neve">
+                        </div>
+                        <div class="form-group">
+                            <label for="sponsor-email">E-mail *</label>
+                            <input type="email" id="sponsor-email" name="email" required placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="sponsor-phone">Telefonszám</label>
+                            <input type="tel" id="sponsor-phone" name="phone" placeholder="+36 ...">
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="sponsor-message">Üzenet *</label>
+                        <textarea id="sponsor-message" name="message" rows="4" required placeholder="Írd le, milyen típusú szponzorációra gondolsz..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="sponsor-file">Fájl csatolása</label>
+                        <div class="file-upload-area" id="sponsor-file-area">
+                            <input type="file" id="sponsor-file" name="file" class="file-input" accept=".pdf,.doc,.docx,.jpg,.png,.ppt,.pptx">
+                            <div class="file-upload-content">
+                                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <p>Húzd ide vagy <span>böngéssz</span></p>
+                                <small>PDF, DOC, JPG, PNG, PPT (max 10MB)</small>
+                            </div>
+                            <div class="file-upload-selected" style="display: none;">
+                                <span class="file-name"></span>
+                                <button type="button" class="file-remove">&times;</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span>KÜLDÉS</span>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </button>
+                </form>
+
+                <!-- ===================== FORM 2: ELŐADÓ / DJ ===================== -->
+                <form class="contact-form" id="form-dj" novalidate>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="dj-name">Művésznév *</label>
+                            <input type="text" id="dj-name" name="artist_name" required placeholder="DJ / Előadó neved">
+                        </div>
+                        <div class="form-group">
+                            <label for="dj-realname">Valódi név *</label>
+                            <input type="text" id="dj-realname" name="real_name" required placeholder="Teljes neved">
+                        </div>
+                        <div class="form-group">
+                            <label for="dj-email">E-mail *</label>
+                            <input type="email" id="dj-email" name="email" required placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="dj-phone">Telefonszám</label>
+                            <input type="tel" id="dj-phone" name="phone" placeholder="+36 ...">
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Social platformok</label>
+                        <div class="social-inputs">
+                            <div class="social-input-row">
+                                <span class="social-label">Facebook</span>
+                                <input type="url" name="facebook" placeholder="https://facebook.com/...">
+                            </div>
+                            <div class="social-input-row">
+                                <span class="social-label">Instagram</span>
+                                <input type="url" name="instagram" placeholder="https://instagram.com/...">
+                            </div>
+                            <div class="social-input-row">
+                                <span class="social-label">SoundCloud</span>
+                                <input type="url" name="soundcloud" placeholder="https://soundcloud.com/...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="dj-genre">Műfaj / Stílus</label>
+                        <input type="text" id="dj-genre" name="genre" placeholder="pl. Industrial Techno, Schranz, Groove Techno...">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="dj-message">Üzenet</label>
+                        <textarea id="dj-message" name="message" rows="3" placeholder="Mesélj magadról, tapasztalataidról..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span>JELENTKEZÉS</span>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </button>
+                </form>
+
+                <!-- ===================== FORM 3: MUNKA ===================== -->
+                <form class="contact-form" id="form-work" novalidate>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="work-name">Név *</label>
+                            <input type="text" id="work-name" name="name" required placeholder="Teljes neved">
+                        </div>
+                        <div class="form-group">
+                            <label for="work-email">E-mail *</label>
+                            <input type="email" id="work-email" name="email" required placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="work-phone">Telefonszám *</label>
+                            <input type="tel" id="work-phone" name="phone" required placeholder="+36 ...">
+                        </div>
+                        <div class="form-group">
+                            <label for="work-position">Pozíció *</label>
+                            <div class="custom-select-wrapper">
+                                <select id="work-position" name="position" required>
+                                    <option value="" disabled selected>Válassz pozíciót...</option>
+                                    <option value="promoter">Promoter</option>
+                                    <option value="artist-care">Artist Care</option>
+                                    <option value="asszisztens">Asszisztens</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="work-experience">Korábbi tapasztalat</label>
+                        <textarea id="work-experience" name="experience" rows="3" placeholder="Írd le röviden a releváns tapasztalataidat..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="work-message">Motiváció</label>
+                        <textarea id="work-message" name="message" rows="3" placeholder="Miért szeretnél az Elysium csapatában dolgozni?"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span>JELENTKEZÉS</span>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </button>
+                </form>
+
+                <!-- Success message -->
+                <div class="form-success" id="form-success" style="display: none;">
+                    <div class="success-icon">
+                        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <h3>KÖSZÖNJÜK!</h3>
+                    <p>Az üzenetedet megkaptuk, hamarosan válaszolunk.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Fullscreen Hamburger Menu Overlay -->
+    <div class="fullscreen-menu">
+        <nav class="menu-nav-links">
+            <a href="index.html">KEZDŐLAP</a>
+            <a href="agency.html">AGENCY</a>
+            <a href="festival.html">FESZTIVÁL</a>
+            <a href="index.html#esemenyek">ESEMÉNYEK</a>
+            <a href="contact.html">KAPCSOLAT</a>
+        </nav>
+    </div>
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="contact.js"></script>
+</body>
+</html>
