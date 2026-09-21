@@ -1,0 +1,655 @@
+/* ============================================
+   MANAGEMENT PAGE – Imports shared styles + overrides
+   ============================================ */
+@import url('style.css?v=36');
+
+/* ---- Hero Background Image (replaces video) ---- */
+.hero-bg-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+}
+
+/* Minimal redshift overlay for the hero background */
+.hero-bg-layer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--accent-red); /* Using 'background' instead of 'background-color' to override the gradient from style.css */
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 20; /* Keep it above the glitch slices */
+}
+
+/* ---- Glitch Overlay Container ---- */
+.glitch-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0; /* Hidden until glitch begins */
+    overflow: hidden;
+}
+
+/* ---- Individual Glitch Slices ---- */
+.glitch-slice {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    will-change: transform, opacity, filter;
+    transform: translateZ(0); /* Force GPU layer */
+}
+
+.glitch-slice-img {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1200%; /* SLICE_COUNT * 100% */
+    object-fit: cover;
+    object-position: center 20%;
+    pointer-events: none;
+}
+
+/* ---- Resident Content Section ---- */
+.resident-section {
+    position: relative;
+    z-index: 10;
+    background-color: var(--bg-color);
+    width: 100vw;
+    padding: 100px 6vw 120px 6vw;
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    overflow: hidden; /* For sliding elements */
+}
+
+.resident-container {
+    max-width: 1200px;
+    width: 100%;
+}
+
+.resident-title {
+    font-size: 80px;
+    font-weight: 800;
+    margin-bottom: 80px;
+    text-transform: uppercase;
+    color: var(--text-main);
+    letter-spacing: 4px;
+    text-align: center;
+}
+
+.resident-title::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 5px;
+    background: var(--accent-red);
+    margin: 20px auto 0 auto;
+    box-shadow: 0 0 15px var(--accent-red);
+}
+
+.resident-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+}
+
+.resident-card {
+    position: relative;
+    aspect-ratio: 1 / 1.1;
+    overflow: hidden;
+    background-color: var(--bg-color);
+    cursor: pointer;
+    display: flex;
+}
+
+.resident-card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transition: transform 0.8s cubic-bezier(0.2, 1, 0.2, 1);
+}
+
+/* Gradient that appears on hover */
+.resident-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(255, 0, 50, 1) 10%, rgba(255, 0, 50, 0) 90%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    mix-blend-mode: multiply; /* Creates the deep duotone look */
+    pointer-events: none;
+}
+
+.resident-card:hover .resident-card-bg {
+    transform: scale(1.08);
+}
+
+.resident-card:hover .resident-card-overlay {
+    opacity: 1;
+}
+
+.resident-card-name {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    font-size: 42px;
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    margin: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.resident-card-socials {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 2;
+}
+
+.resident-card:hover .resident-card-socials {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.resident-card-socials a {
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.resident-card-socials a:hover {
+    color: var(--accent-red);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .resident-title {
+        font-size: 60px;
+    }
+    .resident-card-name {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .resident-title {
+        font-size: 45px;
+    }
+    .resident-section {
+        padding: 80px 6vw;
+    }
+    .resident-grid {
+        grid-template-columns: 1fr;
+    }
+    .resident-card-name {
+        font-size: 28px;
+    }
+}
+
+/* Minimalist Scroll Down Indicator */
+.scroll-down-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.scroll-down-indicator:hover {
+    opacity: 1;
+}
+
+.scroll-text {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.scroll-line-container {
+    width: 2px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-line-animated {
+    width: 100%;
+    height: 50%;
+    background: var(--accent-red);
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: scrollLineDrop 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+@keyframes scrollLineDrop {
+    0% { transform: translateY(-100%); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(200%); opacity: 0; }
+}
+
+/* ============================================
+   RESIDENT DETAIL OVERLAY
+   ============================================ */
+.resident-detail-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: visibility 0s linear 0.5s;
+}
+
+.resident-detail-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+    visibility: visible;
+    transition: visibility 0s linear 0s;
+}
+
+.overlay-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 5, 5, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* Close Button */
+.overlay-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.overlay-close:hover {
+    background: var(--accent-red);
+    border-color: var(--accent-red);
+    transform: rotate(90deg);
+}
+
+/* Content Layout */
+.overlay-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    width: 90vw;
+    max-width: 1200px;
+    height: 75vh;
+    max-height: 700px;
+    gap: 60px;
+    align-items: center;
+}
+
+/* Image Side */
+.overlay-image-side {
+    flex: 0 0 45%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.overlay-dj-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.overlay-image-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to top, rgba(5, 5, 5, 0.7) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+/* Info Side */
+.overlay-info-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 40px;
+}
+
+.overlay-dj-name {
+    font-size: clamp(48px, 6vw, 90px);
+    font-weight: 900;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    line-height: 0.95;
+    margin: 0 0 15px 0;
+}
+
+.overlay-red-line {
+    width: 60px;
+    height: 4px;
+    background: var(--accent-red);
+    box-shadow: 0 0 12px var(--accent-red);
+    margin-bottom: 20px;
+}
+
+.overlay-dj-highlight {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent-red);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 25px 0;
+}
+
+.overlay-dj-description {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 500px;
+}
+
+.overlay-dj-description p {
+    margin: 0 0 15px 0;
+}
+
+.overlay-dj-description p:last-child {
+    margin-bottom: 0;
+}
+
+/* Overlay Social Links */
+.overlay-dj-socials {
+    display: flex;
+    gap: 20px;
+    margin-top: 35px;
+}
+
+.overlay-dj-socials a {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    padding: 8px 0;
+    position: relative;
+}
+
+.overlay-dj-socials a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-red);
+    transition: width 0.3s ease;
+}
+
+.overlay-dj-socials a:hover {
+    opacity: 1;
+    color: var(--accent-red);
+}
+
+.overlay-dj-socials a:hover::after {
+    width: 100%;
+}
+
+/* Navigation Arrows */
+.overlay-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.overlay-nav-prev { left: 25px; }
+.overlay-nav-next { right: 25px; }
+
+.overlay-nav:hover {
+    background: var(--accent-red);
+    border-color: var(--accent-red);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.overlay-nav svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Pagination Dots */
+.overlay-pagination {
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 14px;
+    z-index: 10;
+}
+
+.overlay-pagination .overlay-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.overlay-pagination .overlay-dot:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.overlay-pagination .overlay-dot.active {
+    background: var(--accent-red);
+    box-shadow: 0 0 10px var(--accent-red);
+    transform: scale(1.3);
+}
+
+/* Lock body scroll when overlay is open */
+body.overlay-open {
+    overflow: hidden;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+    .overlay-content {
+        flex-direction: column;
+        height: auto;
+        max-height: 85vh;
+        gap: 30px;
+        overflow-y: auto;
+        padding: 80px 0 80px 0;
+    }
+
+    .overlay-image-side {
+        flex: none;
+        width: 100%;
+        height: 35vh;
+        min-height: 250px;
+        border-radius: 4px;
+    }
+
+    .overlay-info-side {
+        padding: 0 10px;
+        text-align: center;
+        align-items: center;
+    }
+
+    .overlay-dj-name {
+        font-size: clamp(36px, 10vw, 60px);
+    }
+
+    .overlay-dj-description {
+        max-width: 100%;
+    }
+
+    .overlay-dj-socials {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .overlay-red-line {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .overlay-nav-prev { left: 10px; }
+    .overlay-nav-next { right: 10px; }
+
+    .overlay-close {
+        top: 15px;
+        right: 15px;
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* ============================================
+   BOOKING INFO FOOTER
+   ============================================ */
+.booking-footer {
+    position: relative;
+    width: 100%;
+    padding: 80px 20px 60px;
+    background: linear-gradient(180deg, transparent 0%, rgba(197, 0, 0, 0.04) 40%, rgba(197, 0, 0, 0.08) 100%);
+    overflow: hidden;
+}
+
+/* Subtle noise texture overlay */
+.booking-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(197, 0, 0, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.booking-footer-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    max-width: 600px;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+/* Decorative red accent line */
+.booking-accent-line {
+    width: 60px;
+    height: 3px;
+    background: var(--accent-red);
+    box-shadow: 0 0 12px rgba(197, 0, 0, 0.5), 0 0 30px rgba(197, 0, 0, 0.2);
+}
+
+/* "BOOKING" label */
+.booking-label {
+    font-family: var(--font-main);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* Email address link */
+.booking-email {
+    font-family: var(--font-main);
+    font-size: clamp(18px, 3vw, 28px);
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.booking-email:hover {
+    color: var(--accent-red);
+    text-shadow: 0 0 20px rgba(197, 0, 0, 0.4);
+}
+
+/* CTA Button override for booking context */
+.booking-cta {
+    margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+    .booking-footer {
+        padding: 60px 20px 50px;
+    }
+
+    .booking-label {
+        font-size: 11px;
+        letter-spacing: 5px;
+    }
+}

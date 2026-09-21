@@ -351,8 +351,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Hide contact elements — they appear in Phase 4
     gsap.set(".contact-section .contact-logo", { y: 150, opacity: 0 });
     gsap.set(".contact-section .hero-tab-button", { y: 150, opacity: 0 });
-    gsap.set(".contact-section .c-item", { y: 80, opacity: 0 });
     gsap.set(".contact-section .s-icon", { y: 40, opacity: 0 });
+    gsap.set(".contact-section .navbar", { y: -80, opacity: 0 });
 
     // Start the container small and shifted completely off-screen to the right
     gsap.set(".contact-container", {
@@ -429,17 +429,23 @@ document.addEventListener("DOMContentLoaded", () => {
         7.7
     );
 
-    galleryTl.fromTo(".contact-section .c-item", 
-        { y: 80, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2, stagger: 0.1, ease: "power2.inOut" }, 
-        8.0
-    );
-
     galleryTl.fromTo(".contact-section .s-icon", 
         { y: 40, opacity: 0 },
         { y: 0, opacity: 1, duration: 1.0, stagger: 0.1, ease: "power2.inOut" }, 
         8.3
     );
+
+    galleryTl.fromTo(".contact-section .navbar", 
+        { y: -80, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.5, ease: "power2.inOut" }, 
+        7.5
+    );
+
+    galleryTl.to("#fixed-header", {
+        y: 0,
+        duration: 1.5,
+        ease: "power2.inOut"
+    }, 7.5);
 
     // --- HAMBURGER MENU LOGIC ---
     const hamburgerBtn = document.querySelector('.hamburger-btn');

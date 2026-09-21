@@ -7,16 +7,18 @@ const elysiumTranslations = {
     hu: {
         // Navigation
         "nav_home": "KEZDŐLAP",
-        "nav_agency": "AGENCY",
-        "nav_festival": "FESZTIVÁL",
+        "nav_management": "MANAGEMENT",
+        "nav_agency": "MANAGEMENT",
         "nav_events": "ESEMÉNYEK",
+        "nav_festival": "FESZTIVÁL",
         "nav_contact": "KAPCSOLAT",
 
         // Common hero & bottom bar
         "hero_tickets": "JEGYEK",
         "hero_next_event": "KÖVETKEZŐ ESEMÉNY",
         "hero_scroll_details": "GÖRGESS LE A RÉSZLETEKHEZ",
-        "hero_go_agency": "UGRÁS AZ AGENCY-RE",
+        "hero_go_management": "UGRÁS A MANAGEMENT-RE",
+        "hero_go_agency": "UGRÁS A MANAGEMENT-RE",
         "hero_sound_of_elysium": "AZ ELYSIUM HANGZÁSA",
         "hero_scroll_residents": "GÖRGESS LE A REZIDENSEKHEZ",
         "hero_go_contact": "UGRÁS A KAPCSOLATHOZ",
@@ -53,8 +55,10 @@ const elysiumTranslations = {
         // Index: Sponsors & Footer
         "sponsors_title": "SZPONZORAINK",
         "footer_email_btn": "E-MAIL KÜLDÉSE",
+        "footer_impressum": "IMPRESSZUM",
+        "footer_privacy": "ADATVÉDELMI TÁJÉKOZTATÓ",
 
-        // Agency Page
+        // Management Page
         "residents_title": "REZIDENSEINK",
         "overlay_back": "VISSZA",
 
@@ -131,16 +135,18 @@ const elysiumTranslations = {
     en: {
         // Navigation
         "nav_home": "HOME",
-        "nav_agency": "AGENCY",
-        "nav_festival": "FESTIVAL",
+        "nav_management": "MANAGEMENT",
+        "nav_agency": "MANAGEMENT",
         "nav_events": "EVENTS",
+        "nav_festival": "FESTIVAL",
         "nav_contact": "CONTACT",
 
         // Common hero & bottom bar
         "hero_tickets": "TICKETS",
         "hero_next_event": "NEXT EVENT",
         "hero_scroll_details": "SCROLL DOWN FOR DETAILS",
-        "hero_go_agency": "GO TO AGENCY",
+        "hero_go_management": "GO TO MANAGEMENT",
+        "hero_go_agency": "GO TO MANAGEMENT",
         "hero_sound_of_elysium": "THE SOUND OF ELYSIUM",
         "hero_scroll_residents": "SCROLL DOWN FOR RESIDENTS",
         "hero_go_contact": "GO TO CONTACT",
@@ -177,8 +183,10 @@ const elysiumTranslations = {
         // Index: Sponsors & Footer
         "sponsors_title": "OUR SPONSORS",
         "footer_email_btn": "SEND E-MAIL",
+        "footer_impressum": "IMPRESSUM",
+        "footer_privacy": "PRIVACY POLICY",
 
-        // Agency Page
+        // Management Page
         "residents_title": "OUR RESIDENTS",
         "overlay_back": "BACK",
 
@@ -317,7 +325,7 @@ const elysiumTranslations = {
             }
         });
 
-        // 5. Dispatch custom event for dynamic components (like agency overlay)
+        // 5. Dispatch custom event for dynamic components (like management overlay)
         window.dispatchEvent(new CustomEvent('elysium:langchange', { detail: { lang } }));
 
         // 6. Refresh GSAP ScrollTrigger if present
