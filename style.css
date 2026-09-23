@@ -390,8 +390,8 @@ body.menu-open .menu-lang-switch {
     position: absolute;
     top: 20px;
     left: 20px;
-    width: calc(100vw - 40px);
-    height: calc(100vh - 40px);
+    right: 20px;
+    bottom: 20px;
     z-index: 1;
 }
 
@@ -876,6 +876,140 @@ body.menu-open .menu-lang-switch {
     color: var(--text-main);
     display: flex;
     justify-content: center;
+}
+
+/* --- HERO → RÓLUNK "rácsúszó kártya" --- */
+.hero-container {
+    transform-origin: 50% 40%;
+    will-change: transform;
+}
+
+/* Sötétítő réteg a hero felett (a bevágásokban úgyis fekete a háttér) */
+.hero-dim {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    opacity: 0;
+    z-index: 6;
+    pointer-events: none;
+}
+
+/* Görgetési tér: elég hosszú ahhoz, hogy a Rólunk csak azután kezdjen rácsúszni,
+   hogy a logó már teljesen, nyugalmi állapotban a helyén van (lásd script.js) */
+.hero-card-spacer {
+    height: 120vh;
+    pointer-events: none;
+}
+
+/* A Rólunk szekció mint kártya: lekerekített felső sarkok, finom világos élvonal + mélység */
+.about-section {
+    border-radius: 28px 28px 0 0;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 -30px 80px rgba(0, 0, 0, 0.85);
+}
+
+/* Felső fül: a hero felső bevágásának fordítottja (lent széles, fent keskeny).
+   ::before = 1px-es világos körvonal, ::after = fekete kitöltés */
+.about-section::before,
+.about-section::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+.about-section::before {
+    width: 1002px;
+    height: 71px;
+    margin-bottom: -1px;
+    background: rgba(255, 255, 255, 0.12);
+    clip-path: polygon(60px 0, calc(100% - 60px) 0, 100% 100%, 0 100%);
+}
+.about-section::after {
+    width: 1000px;
+    height: 70px;
+    margin-bottom: -1px; /* rácsúszik a kártya élvonalára, így a fül alatt nincs vonal */
+    background: var(--bg-color);
+    clip-path: polygon(60px 0, calc(100% - 60px) 0, 100% 100%, 0 100%);
+}
+
+@media (max-width: 1200px) {
+    .about-section::before {
+        width: 242px;
+        height: 41px;
+        clip-path: polygon(30px 0, calc(100% - 30px) 0, 100% 100%, 0 100%);
+    }
+    .about-section::after {
+        width: 240px;
+        height: 40px;
+        clip-path: polygon(30px 0, calc(100% - 30px) 0, 100% 100%, 0 100%);
+    }
+}
+
+@media (max-width: 768px) {
+    .about-section {
+        border-radius: 20px 20px 0 0;
+    }
+}
+
+/* ==========================================================================
+   Megosztott "kártya" stílus MINDEN hero utáni szekcióhoz (pontosan ugyanaz a mechanizmus,
+   mint a Rólunk-nál): add hozzá a .hero-next-card osztályt a szekcióhoz - ez adja a
+   lekerekített felső sarkokat, a mélység-árnyékot ÉS a felső "fül" polygont (::before/::after).
+   FONTOS: a szekció ne állítson be saját overflow:hidden-t, mert az levágná a fület,
+   ami a doboz felső éle FÖLÉ lóg ki (bottom: 100%).
+   ========================================================================== */
+.hero-next-card {
+    position: relative;
+    border-radius: 28px 28px 0 0;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 -30px 80px rgba(0, 0, 0, 0.85);
+}
+
+.hero-next-card::before,
+.hero-next-card::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+.hero-next-card::before {
+    width: 1002px;
+    height: 71px;
+    margin-bottom: -1px;
+    background: rgba(255, 255, 255, 0.12);
+    clip-path: polygon(60px 0, calc(100% - 60px) 0, 100% 100%, 0 100%);
+}
+.hero-next-card::after {
+    width: 1000px;
+    height: 70px;
+    margin-bottom: -1px;
+    background: var(--bg-color);
+    clip-path: polygon(60px 0, calc(100% - 60px) 0, 100% 100%, 0 100%);
+}
+
+@media (max-width: 1200px) {
+    .hero-next-card::before {
+        width: 242px;
+        height: 41px;
+        clip-path: polygon(30px 0, calc(100% - 30px) 0, 100% 100%, 0 100%);
+    }
+    .hero-next-card::after {
+        width: 240px;
+        height: 40px;
+        clip-path: polygon(30px 0, calc(100% - 30px) 0, 100% 100%, 0 100%);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-next-card {
+        border-radius: 20px 20px 0 0;
+    }
 }
 
 .about-container {
@@ -1568,14 +1702,14 @@ body.menu-open .menu-lang-switch {
         calc(100% - 5px) 0, calc(100% - 2px) 1px, calc(100% - 1px) 2px, 100% 5px, /* Top-Right 5px Curve */
         
         /* Bottom Edge (Narrower tab) */
-        100% calc(100% - 145px), calc(100% - 1px) calc(100% - 142px), calc(100% - 2px) calc(100% - 141px), calc(100% - 5px) calc(100% - 140px), /* Bottom-Right 5px Curve */
+        100% calc(100% - 105px), calc(100% - 1px) calc(100% - 102px), calc(100% - 2px) calc(100% - 101px), calc(100% - 5px) calc(100% - 100px), /* Bottom-Right 5px Curve */
         
-        calc(50% + 220px) calc(100% - 140px), 
+        calc(50% + 220px) calc(100% - 100px), 
         calc(50% + 160px) 100%, 
         calc(50% - 160px) 100%, 
-        calc(50% - 220px) calc(100% - 140px), 
+        calc(50% - 220px) calc(100% - 100px), 
         
-        5px calc(100% - 140px), 2px calc(100% - 141px), 1px calc(100% - 142px), 0 calc(100% - 145px) /* Bottom-Left 5px Curve */
+        5px calc(100% - 100px), 2px calc(100% - 101px), 1px calc(100% - 102px), 0 calc(100% - 105px) /* Bottom-Left 5px Curve */
     );
 }
 

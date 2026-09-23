@@ -1,7 +1,7 @@
 /* ============================================
    CONTACT PAGE – Imports shared styles + overrides
    ============================================ */
-@import url('style.css?v=36');
+@import url('style.css?v=40');
 
 /* ---- Hero Background Image ---- */
 .hero-bg-img {
@@ -78,10 +78,14 @@
 }
 
 /* Background image behind the whole section */
+/* overflow:hidden + border-radius itt (nem a .contact-section-on, aminek overflow:visible kell
+   a felette lógó "fül" polygon miatt) hogy a fotó is kövesse a kártya lekerekített felső sarkát */
 .contact-bg-image {
     position: absolute;
     inset: 0;
     z-index: 0;
+    overflow: hidden;
+    border-radius: 28px 28px 0 0;
 }
 
 .contact-bg-image img {
@@ -95,12 +99,20 @@
 .contact-bg-overlay {
     position: absolute;
     inset: 0;
+    border-radius: 28px 28px 0 0;
     background: linear-gradient(
         135deg,
         rgba(5, 5, 5, 0.95) 0%,
         rgba(5, 5, 5, 0.8) 40%,
         rgba(30, 0, 10, 0.85) 100%
     );
+}
+
+@media (max-width: 768px) {
+    .contact-bg-image,
+    .contact-bg-overlay {
+        border-radius: 20px 20px 0 0;
+    }
 }
 
 /* Main layout container */

@@ -1,7 +1,7 @@
 /* ============================================
    MANAGEMENT PAGE – Imports shared styles + overrides
    ============================================ */
-@import url('style.css?v=36');
+@import url('style.css?v=40');
 
 /* ---- Hero Background Image (replaces video) ---- */
 .hero-bg-img {
@@ -69,7 +69,7 @@
     color: var(--text-main);
     display: flex;
     justify-content: center;
-    overflow: hidden; /* For sliding elements */
+    /* overflow:hidden removed - it would clip the .hero-next-card top "flap" that hangs above this box */
 }
 
 .resident-container {
@@ -591,6 +591,11 @@ body.overlay-open {
     inset: 0;
     background: radial-gradient(ellipse at 50% 0%, rgba(197, 0, 0, 0.08) 0%, transparent 70%);
     pointer-events: none;
+}
+
+/* Ambient Background Glows (always-on, mint az index.html events-glow-override mintaja) */
+.booking-glow-override {
+    z-index: 0 !important; /* a szekcio sajat hatterei fole, de a tartalom (z-index:1) moge */
 }
 
 .booking-footer-inner {

@@ -24,38 +24,69 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
-    // 2. MAIN SCROLL TIMELINE (Smooth Shrink & Reveal)
+    // 2. MAIN SCROLL TIMELINE (teljes kepernyos hero -> logo felcsuszas -> kartya racsuszas)
     // ==========================================
+    const shapeState = { smooth: 0 };
+    function buildHeroPath(smooth) {
+        const el = document.querySelector(".hero-bg-layer");
+        const w = el.offsetWidth;
+        const h = el.offsetHeight;
+        const r = 5 * (1 - smooth);
+        const cx = w / 2;
+        const narrow = window.innerWidth <= 1200;
+        const baseT = narrow ? { o: 120, i: 90, d: 40 } : { o: 500, i: 440, d: 70 };
+        const baseB = narrow ? { h: 70, o: 180, i: 140 } : { h: 100, o: 220, i: 160 };
+        const k = 1 - smooth;
+        const t = { o: baseT.o, i: baseT.i, d: baseT.d * k };
+        const b = { h: baseB.h * k, o: baseB.o, i: baseB.i };
+        const yb = h - b.h;
+        return `path('M 0 ${r} A ${r} ${r} 0 0 1 ${r} 0 ` +
+            `L ${cx - t.o} 0 L ${cx - t.i} ${t.d} L ${cx + t.i} ${t.d} L ${cx + t.o} 0 ` +
+            `L ${w - r} 0 A ${r} ${r} 0 0 1 ${w} ${r} ` +
+            `L ${w} ${yb - r} A ${r} ${r} 0 0 1 ${w - r} ${yb} ` +
+            `L ${cx + b.o} ${yb} L ${cx + b.i} ${h} L ${cx - b.i} ${h} L ${cx - b.o} ${yb} ` +
+            `L ${r} ${yb} A ${r} ${r} 0 0 1 0 ${yb - r} Z')`;
+    }
+    function applyHeroShape() {
+        const el = document.querySelector(".hero-bg-layer");
+        if (!el) return;
+        const p = buildHeroPath(shapeState.smooth);
+        el.style.clipPath = p;
+        el.style.webkitClipPath = p;
+    }
+    applyHeroShape();
+    window.addEventListener("resize", applyHeroShape);
+
+    const heroSpacer = document.querySelector(".hero-card-spacer");
+
     const tl = gsap.timeline({
         scrollTrigger: {
             trigger: ".hero-section",
             start: "top top",
-            end: "+=2000",
+            end: () => "+=" + ((heroSpacer ? heroSpacer.offsetHeight : 0) + window.innerHeight),
             scrub: 1,
             pin: true,
-            anticipatePin: 1
+            pinSpacing: false,
+            anticipatePin: 1,
+            invalidateOnRefresh: true
         }
     });
 
-    tl.to(".hero-section .hero-content, .hero-tab-button, .bottom-bar, .navbar", {
-        y: -150, opacity: 0, duration: 1.5, ease: "power2.inOut", stagger: 0.1
+    tl.to(".hero-section .hero-content, .hero-tab-button, .navbar", {
+        y: -100, opacity: 0, duration: 0.10, ease: "power2.inOut", stagger: 0.03
     }, 0);
 
-    tl.to("#fixed-header", {
-        y: -20, duration: 1.0, ease: "power2.out"
-    }, 0);
+    tl.to("#fixed-header", { y: -20, duration: 0.08, ease: "power2.out" }, 0);
 
-    tl.to(".marquee-container", {
-        opacity: 1, duration: 1.0, ease: "none"
-    }, 1.0);
+    tl.to(".hero-container", {
+        top: 0, left: 0, right: 0, bottom: 0, duration: 0.20, ease: "power2.inOut"
+    }, 0.07);
+    tl.to(shapeState, { smooth: 1, duration: 0.20, ease: "power2.inOut", onUpdate: applyHeroShape }, 0.07);
 
-    tl.to(".hero-bg-layer", {
-        scale: 0.35, borderRadius: "20px", duration: 2, ease: "power2.inOut"
-    }, 1.0);
+    tl.to(".centered-logo", { y: 0, opacity: 1, duration: 0.22, ease: "power2.out" }, 0.25);
 
-    tl.to(".centered-logo", {
-        y: 0, scale: 1, opacity: 1, duration: 1.5, ease: "power3.out"
-    }, 2.0);
+    // HOLD - amig ezt gorgetjuk, a logo mar nyugalmi allapotban van, mielott a kovetkezo szekcio racsuszna
+    tl.to({}, { duration: 0.455 }, 0.545);
 
     // ==========================================
     // 3. CONTACT SECTION ANIMATIONS

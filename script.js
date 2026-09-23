@@ -21,74 +21,120 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Set initial states for elements that GSAP will control
     gsap.set(".centered-logo", { xPercent: -50, yPercent: -50, y: 150, opacity: 0 });
-    gsap.set(".marquee-bold span", { xPercent: 0 });
-    gsap.set(".marquee-red span", { xPercent: -50 });
 
-    // Create the main scroll timeline
+    // --- HERO → RÓLUNK: keret kisimul teljes képernyősre, majd a logó felúszik, ---
+    // --- utána "rácsúszó kártyaként" jön a Rólunk (pin, pinSpacing nélkül) ---
+    // A hero elemei kicsúsznak, a bevágott polygon (a notch-ok és a lekerekített
+    // sarkok) fokozatosan elsimul egy sima téglalappá, a keret pedig 20px-es
+    // margóról kitölti a teljes képernyőt. Csak EZUTÁN úszik fel a logó a videó
+    // közepébe. A Rólunk szekció csak azután kezd rácsúszni kártyaként, hogy a
+    // logó már teljesen, nyugalmi állapotban a helyén van — ezt egy szándékos
+    // "hold" szakasz és a spacer mérete garantálja.
+
+    // A hero keret bevágott polygonját JS építi fel, hogy sima animációval el tudjon
+    // tűnni: "smooth" = 0 → jelenlegi bevágott forma, "smooth" = 1 → sima téglalap.
+    const shapeState = { smooth: 0 };
+    function buildHeroPath(smooth) {
+        const el = document.querySelector(".hero-bg-layer");
+        const w = el.offsetWidth;
+        const h = el.offsetHeight;
+        const r = 5 * (1 - smooth); // a lekerekített sarkok is elsimulnak
+        const cx = w / 2;
+        const narrow = window.innerWidth <= 1200;
+        const baseT = narrow ? { o: 120, i: 90, d: 40 } : { o: 500, i: 440, d: 70 };
+        const baseB = narrow ? { h: 70, o: 180, i: 140 } : { h: 100, o: 220, i: 160 };
+        const k = 1 - smooth; // a bevágások mélysége nullára simul
+        const t = { o: baseT.o, i: baseT.i, d: baseT.d * k };
+        const b = { h: baseB.h * k, o: baseB.o, i: baseB.i };
+        const yb = h - b.h;
+        return `path('M 0 ${r} A ${r} ${r} 0 0 1 ${r} 0 ` +
+            `L ${cx - t.o} 0 L ${cx - t.i} ${t.d} L ${cx + t.i} ${t.d} L ${cx + t.o} 0 ` +
+            `L ${w - r} 0 A ${r} ${r} 0 0 1 ${w} ${r} ` +
+            `L ${w} ${yb - r} A ${r} ${r} 0 0 1 ${w - r} ${yb} ` +
+            `L ${cx + b.o} ${yb} L ${cx + b.i} ${h} L ${cx - b.i} ${h} L ${cx - b.o} ${yb} ` +
+            `L ${r} ${yb} A ${r} ${r} 0 0 1 0 ${yb - r} Z')`;
+    }
+    function applyHeroShape() {
+        const el = document.querySelector(".hero-bg-layer");
+        if (!el) return;
+        const p = buildHeroPath(shapeState.smooth);
+        el.style.clipPath = p;
+        el.style.webkitClipPath = p;
+    }
+    applyHeroShape();
+    window.addEventListener("resize", applyHeroShape);
+
+    const heroSpacer = document.querySelector(".hero-card-spacer");
+
     const tl = gsap.timeline({
         scrollTrigger: {
             trigger: ".hero-section",
             start: "top top",
-            end: "+=2000", // The scroll distance to complete the animation (2000px makes it very smooth)
-            scrub: 1,      // Smooth scrubbing (takes 1 sec to catch up to scroll)
-            pin: true,     // Pin the hero section while scrolling
-            anticipatePin: 1 // Prevents visual snapping/jumping when the pin starts and ends
+            end: () => "+=" + ((heroSpacer ? heroSpacer.offsetHeight : 0) + window.innerHeight),
+            scrub: 1,
+            pin: true,
+            pinSpacing: false,     // így a Rólunk szekció ténylegesen rácsúszik a hero-ra
+            anticipatePin: 1,
+            invalidateOnRefresh: true
         }
     });
 
-    // Step 1: Slide out hero elements (text, buttons, bottom bar, and nav links)
-    tl.to(".hero-section .hero-content, .hero-tab-button, .bottom-bar, .navbar", {
-        y: -150,
+    // --- 1. FÁZIS (t: 0 → ~0.47) — a hero saját reveal-je, védetten ---
+    // A .hero-card-spacer (120vh) pontosan akkora, hogy a Rólunk szekció csak
+    // jóval azután kezdjen rácsúszni, hogy a logó már teljesen megérkezett és egy
+    // pillanatra nyugalomban van — nem lehet "átgörgetni" a logó beérkezése előtt.
+
+    // A hero tartalma (szöveg, gomb, menü) kicsúszik a képből
+    tl.to(".hero-section .hero-content, .hero-tab-button, .navbar", {
+        y: -100,
         opacity: 0,
-        duration: 1.5,
+        duration: 0.10,
         ease: "power2.inOut",
-        stagger: 0.1
+        stagger: 0.03
     }, 0);
 
-    // Step 1.5: Slide the fixed header upwards into its permanent flush position
+    // A fix fejléc a végleges, felső helyére csúszik
     tl.to("#fixed-header", {
-        y: -20, // Starts at 20px down, sliding -20px makes it perfectly flush with the top
-        duration: 1.0,
+        y: -20,
+        duration: 0.08,
         ease: "power2.out"
     }, 0);
 
-    // Step 2: Fade in the marquees container behind ONLY when shrinking starts
-    tl.to(".marquee-container", {
-        opacity: 1,
-        duration: 1
-    }, 1.0);
-
-    // Endless marquee loops (independent of scroll position, moving on their own)
-    gsap.to(".marquee-bold span", {
-        xPercent: -50, // Move left
-        repeat: -1,
-        duration: 15,
-        ease: "none"
-    });
-
-    gsap.to(".marquee-red span", {
-        xPercent: 0, // Move right (from -50 to 0)
-        repeat: -1,
-        duration: 15,
-        ease: "none"
-    });
-
-    // Step 4: Scale down the background picture layer to a "little screen"
-    tl.to(".hero-bg-layer", {
-        scale: 0.35, // Shrink to 35% size
-        borderRadius: "20px",
-        duration: 2,
+    // A keret 20px margóról teljes képernyőre nyílik, a polygon pedig elsimul —
+    // a kettő szinkronban fut, hogy a bevágás és a margó egyszerre tűnjön el.
+    tl.to(".hero-container", {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        duration: 0.20,
         ease: "power2.inOut"
-    }, 1.0); // Starts when the marquee fades in
+    }, 0.07);
 
-    // Step 5: Slide up the Elysium logo
+    tl.to(shapeState, {
+        smooth: 1,
+        duration: 0.20,
+        ease: "power2.inOut",
+        onUpdate: applyHeroShape
+    }, 0.07);
+
+    // A logó szépen, lassan felúszik alulról a most már teljes képernyős videó közepébe
     tl.to(".centered-logo", {
-        y: 0, // Move exactly into the center
-        scale: 1,
+        y: 0,
         opacity: 1,
-        duration: 1.5,
-        ease: "power3.out"
-    }, 2.0); // Starts after picture scaling has progressed
+        duration: 0.22,
+        ease: "power2.out"
+    }, 0.25);
+
+    // --- HOLD (t: ~0.47 → ~0.545) — a logó egy pillanatra nyugalomban marad ---
+    // Ez idő alatt szándékosan nem történik semmi: ez adja a "megvárja, míg a logó
+    // teljesen a helyére ér" érzetet, mielőtt a Rólunk egyáltalán megjelenhetne.
+
+    // --- 2. FÁZIS (t: ~0.545 → 1) — a Rólunk kártya rácsúszik ---
+    // Maga a felcsúszás természetes görgetéssel történik (pinSpacing:false), a hero
+    // eközben teljesen mozdulatlan/statikus marad. Ez az üres tween csak azért kell,
+    // hogy a timeline teljes hossza (és ezzel a fenti időzítés) pontosan kijöjjön.
+    tl.to({}, { duration: 0.455 }, 0.545);
 
     // --- ABOUT SECTION SCROLL ANIMATIONS (PINNED DECK) ---
     // 1. On mobile, we split text and images into separate slide rows

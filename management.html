@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="shortcut icon" href="assets/favicon.ico">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="management.css?v=4">
+    <link rel="stylesheet" href="management.css?v=7">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -96,9 +96,12 @@
         </nav>
     </header>
 
+    <!-- Görgetési tér: amíg ezt görgetjük, a logó felúszik; utána rácsúszik a következő szekció -->
+    <div class="hero-card-spacer" aria-hidden="true"></div>
+
     <!-- Management Content Section (revealed after glitch dissolve) -->
     <!-- Resident DJs Section (revealed after glitch dissolve) -->
-    <section class="resident-section" id="rezidensek">
+    <section class="resident-section hero-next-card" id="rezidensek">
         <div class="resident-container">
             <h2 class="resident-title" data-i18n="residents_title">REZIDENSEINK</h2>
                         <div class="resident-grid">
@@ -189,6 +192,11 @@
 
     <!-- Booking Info Footer -->
     <section class="booking-footer">
+        <!-- Ambient Background Glow (a rezidensek szekcio es a hatter kozotti atmenetet hidalja at) -->
+        <div class="red-glow glow-1 booking-glow-override"></div>
+        <div class="red-glow glow-2 booking-glow-override"></div>
+        <div class="red-glow glow-3 booking-glow-override"></div>
+
         <div class="booking-footer-inner">
             <!-- Decorative top line -->
             <div class="booking-accent-line"></div>
@@ -258,7 +266,7 @@
     <script src="lang.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="management.js"></script>
+    <script src="management.js?v=4"></script>
 
 </body>
 </html>
