@@ -176,7 +176,18 @@
         <div class="events-container">
             <h2 class="events-title" data-i18n="events_title">KÖVETKEZŐ ESEMÉNYEK</h2>
 
-            <div class="events-grid">
+            <!-- "Hamarosan..." placeholder: akkor látszik, ha nincs kint közelgő esemény.
+                 Ha újra van esemény: tedd a `hidden` attribútumot erre a blokkra,
+                 és vedd le az alatta lévő .events-grid-ről. -->
+            <div class="events-coming-soon cutout-tl">
+                <div class="coming-soon-content">
+                    <div class="event-date" data-i18n="events_soon_kicker">ÚJ DÁTUMOK ÉRKEZNEK</div>
+                    <h3 class="coming-soon-text"><span data-i18n="events_soon">HAMAROSAN</span>...</h3>
+                    <p class="event-location coming-soon-sub" data-i18n="events_soon_sub">A következő Elysium éjszaka már készül. Kövess minket, hogy elsőként értesülj.</p>
+                </div>
+            </div>
+
+            <div class="events-grid" hidden>
                 <!-- Event Card 1 -->
                 <div class="event-card cutout-tl">
                     <div class="event-card-content">

@@ -47,6 +47,9 @@ const elysiumTranslations = {
         "event2_date": "2026. OKTÓBER 31.",
         "event2_location": "BUDAPEST, AKVÁRIUM KLUB",
         "event_btn_buy": "JEGYVÁSÁRLÁS",
+        "events_soon_kicker": "ÚJ DÁTUMOK ÉRKEZNEK",
+        "events_soon": "HAMAROSAN",
+        "events_soon_sub": "A következő Elysium éjszaka már készül. Kövess minket, hogy elsőként értesülj.",
 
         // Gallery section
         "gallery_title": "GALÉRIA",
@@ -175,6 +178,9 @@ const elysiumTranslations = {
         "event2_date": "OCTOBER 31, 2026",
         "event2_location": "BUDAPEST, AKVÁRIUM KLUB",
         "event_btn_buy": "BUY TICKETS",
+        "events_soon_kicker": "NEW DATES INCOMING",
+        "events_soon": "COMING SOON",
+        "events_soon_sub": "The next Elysium night is in the making. Follow us to be the first to know.",
 
         // Gallery section
         "gallery_title": "GALLERY",

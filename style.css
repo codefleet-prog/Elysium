@@ -1202,6 +1202,88 @@ body.menu-open .menu-lang-switch {
     margin-top: 50px;
 }
 
+/* Ensure the hidden attribute wins over display:grid */
+.events-grid[hidden],
+.events-coming-soon[hidden] {
+    display: none !important;
+}
+
+/* --- "Hamarosan..." placeholder (no upcoming events) ---
+   Mirrors the .event-card look: same panel bg, border, red diagonal tint and notched cutout. */
+.events-coming-soon {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: flex-end;
+    background-color: rgba(20, 20, 20, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.events-coming-soon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(197,0,0,0.1) 0%, rgba(0,0,0,0) 50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.coming-soon-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 140px 60px 60px 60px; /* Top padding clears the top-left cutout */
+}
+
+.coming-soon-text {
+    font-size: clamp(56px, 9vw, 140px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-main);
+    margin: 0 0 30px 0;
+}
+
+/* Red underline bar, same as the section titles */
+.coming-soon-text::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 5px;
+    background: var(--accent-red);
+    margin-top: 30px;
+}
+
+.coming-soon-sub {
+    max-width: 520px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .events-coming-soon {
+        min-height: 50vh;
+    }
+    .coming-soon-content {
+        padding: 100px 30px 40px 30px;
+    }
+    .coming-soon-text {
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+    }
+    .coming-soon-text::after {
+        width: 80px;
+        height: 4px;
+        margin-top: 20px;
+    }
+    .coming-soon-sub {
+        font-size: 14px;
+    }
+}
+
 .event-card {
     background-color: rgba(20, 20, 20, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.05);
